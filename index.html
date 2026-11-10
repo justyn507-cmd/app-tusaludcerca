@@ -1,0 +1,4200 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f766e" />
+    <meta
+      name="description"
+      content="SaludCerca reúne opciones de atención privada, servicios de laboratorio, farmacia, bienestar y movilidad para organizar mejor tu salud."
+    />
+    <title>SaludCerca | Tu salud, tus opciones, todo más cerca</title>
+    <style>
+      :root {
+        --primary: #0f766e;
+        --primary-dark: #0b5e58;
+        --secondary: #e6fffb;
+        --accent: #2563eb;
+        --bg: #f4f7f9;
+        --surface: #ffffff;
+        --text: #17202a;
+        --muted: #64748b;
+        --line: #dce5ea;
+        --success: #15803d;
+        --warning: #b45309;
+        --danger: #b91c1c;
+        --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        --radius: 18px;
+        --font-scale: 1;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        font-size: calc(16px * var(--font-scale));
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--text);
+        background: var(--bg);
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+      }
+
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+      button,
+      select {
+        cursor: pointer;
+      }
+
+      button:focus-visible,
+      input:focus-visible,
+      select:focus-visible,
+      textarea:focus-visible,
+      a:focus-visible {
+        outline: 3px solid rgba(37, 99, 235, 0.35);
+        outline-offset: 2px;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        min-height: 72px;
+        padding: 10px 22px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        background: rgba(255, 255, 255, 0.96);
+        border-bottom: 1px solid var(--line);
+        backdrop-filter: blur(12px);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 220px;
+      }
+
+      .brand-mark {
+        width: 44px;
+        height: 44px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        background: var(--primary);
+        color: white;
+        font-size: 1.45rem;
+        box-shadow: var(--shadow);
+      }
+
+      .brand strong {
+        display: block;
+        font-size: 1.1rem;
+      }
+      .brand small {
+        color: var(--muted);
+      }
+
+      .top-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .chip,
+      .icon-btn {
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--text);
+        border-radius: 12px;
+        padding: 10px 12px;
+      }
+
+      .icon-btn {
+        min-width: 42px;
+      }
+
+      .role-switch {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 7px 10px;
+        background: var(--secondary);
+        border-radius: 14px;
+      }
+
+      .role-switch span {
+        color: var(--primary-dark);
+        font-size: 0.83rem;
+        font-weight: 700;
+      }
+
+      .role-switch select {
+        border: 1px solid #99d8d0;
+        border-radius: 10px;
+        padding: 8px 10px;
+        background: white;
+        color: var(--text);
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 270px 1fr;
+        min-height: calc(100vh - 72px);
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 72px;
+        height: calc(100vh - 72px);
+        overflow-y: auto;
+        padding: 20px 16px;
+        background: #0f2430;
+        color: white;
+      }
+
+      .user-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        margin-bottom: 18px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .avatar {
+        width: 44px;
+        height: 44px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: #ccfbf1;
+        color: #0f766e;
+        font-weight: 900;
+      }
+
+      .user-card strong,
+      .user-card small {
+        display: block;
+      }
+      .user-card small {
+        color: #b8c8d1;
+        margin-top: 2px;
+      }
+
+      #nav {
+        display: grid;
+        gap: 6px;
+      }
+
+      .nav-link {
+        width: 100%;
+        border: 0;
+        text-align: left;
+        padding: 12px 14px;
+        border-radius: 12px;
+        color: #dbe7ed;
+        background: transparent;
+        transition: 0.18s ease;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        color: white;
+        background: rgba(255, 255, 255, 0.12);
+        transform: translateX(2px);
+      }
+
+      .danger-soft {
+        color: #fecaca;
+      }
+      .sidebar-footer {
+        margin-top: 24px;
+      }
+      .sidebar-footer p {
+        color: #8fa3af;
+        font-size: 0.75rem;
+        line-height: 1.45;
+        padding: 0 8px;
+      }
+
+      .main {
+        min-width: 0;
+        padding: 28px;
+      }
+
+      .view {
+        max-width: 1300px;
+        margin: 0 auto;
+      }
+
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 18px;
+        margin-bottom: 22px;
+      }
+
+      .page-header h1 {
+        margin: 0 0 6px;
+        font-size: clamp(1.55rem, 2.3vw, 2.25rem);
+      }
+      .page-header p {
+        margin: 0;
+        color: var(--muted);
+        max-width: 760px;
+        line-height: 1.55;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .btn {
+        border: 0;
+        border-radius: 12px;
+        padding: 11px 16px;
+        font-weight: 800;
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+      .btn-secondary {
+        background: #e7eef5;
+        color: #1e293b;
+      }
+      .btn-accent {
+        background: var(--accent);
+        color: white;
+      }
+      .btn-danger {
+        background: var(--danger);
+        color: white;
+      }
+      .btn-success {
+        background: var(--success);
+        color: white;
+      }
+      .btn-outline {
+        background: white;
+        color: var(--primary);
+        border: 1px solid #99d8d0;
+      }
+      .btn-sm {
+        padding: 8px 11px;
+        font-size: 0.86rem;
+      }
+
+      .grid {
+        display: grid;
+        gap: 18px;
+      }
+
+      .grid-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      .grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 20px;
+      }
+
+      .card h2,
+      .card h3 {
+        margin-top: 0;
+      }
+      .card p {
+        line-height: 1.55;
+      }
+
+      .stat {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .stat-icon {
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        background: var(--secondary);
+        font-size: 1.35rem;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 1.35rem;
+      }
+      .stat span {
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: 28px;
+        background: linear-gradient(135deg, #0f766e, #155e75);
+        color: white;
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+        margin-bottom: 20px;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        right: -55px;
+        top: -75px;
+        width: 230px;
+        height: 230px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .hero h1 {
+        margin: 0 0 10px;
+        font-size: clamp(1.7rem, 3vw, 2.6rem);
+      }
+      .hero p {
+        max-width: 760px;
+        color: #e6fffb;
+        line-height: 1.6;
+      }
+      .hero .actions {
+        position: relative;
+        z-index: 1;
+        margin-top: 18px;
+      }
+
+      .alert {
+        padding: 14px 16px;
+        border-radius: 14px;
+        margin: 14px 0;
+        border-left: 5px solid;
+      }
+
+      .alert-info {
+        background: #eff6ff;
+        border-color: #2563eb;
+        color: #1e3a8a;
+      }
+      .alert-warning {
+        background: #fff7ed;
+        border-color: #f59e0b;
+        color: #7c2d12;
+      }
+      .alert-danger {
+        background: #fef2f2;
+        border-color: #dc2626;
+        color: #7f1d1d;
+      }
+      .alert-success {
+        background: #f0fdf4;
+        border-color: #22c55e;
+        color: #14532d;
+      }
+
+      .timeline {
+        position: relative;
+        display: grid;
+        gap: 14px;
+      }
+
+      .timeline-item {
+        display: grid;
+        grid-template-columns: 38px 1fr;
+        gap: 12px;
+      }
+
+      .timeline-dot {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--secondary);
+        color: var(--primary);
+        font-weight: 900;
+      }
+
+      .timeline-content {
+        padding: 12px 14px;
+        background: #f8fafc;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+      }
+
+      .timeline-content strong {
+        display: block;
+        margin-bottom: 4px;
+      }
+      .timeline-content small {
+        color: var(--muted);
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 680px;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 13px 12px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+
+      th {
+        color: #475569;
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        background: #f8fafc;
+      }
+
+      tbody tr:hover {
+        background: #fbfdff;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 999px;
+        padding: 6px 9px;
+        font-size: 0.77rem;
+        font-weight: 800;
+      }
+
+      .badge-success {
+        color: #166534;
+        background: #dcfce7;
+      }
+      .badge-warning {
+        color: #92400e;
+        background: #fef3c7;
+      }
+      .badge-info {
+        color: #1d4ed8;
+        background: #dbeafe;
+      }
+      .badge-neutral {
+        color: #475569;
+        background: #e2e8f0;
+      }
+      .badge-danger {
+        color: #991b1b;
+        background: #fee2e2;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .form-group {
+        display: grid;
+        gap: 7px;
+      }
+
+      .form-group.full {
+        grid-column: 1 / -1;
+      }
+
+      label {
+        font-weight: 800;
+        color: #334155;
+        font-size: 0.9rem;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        border: 1px solid #cbd5e1;
+        border-radius: 12px;
+        padding: 11px 12px;
+        background: white;
+        color: var(--text);
+      }
+
+      textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+
+      .kpi {
+        border-left: 5px solid var(--primary);
+      }
+
+      .kpi strong {
+        display: block;
+        font-size: 1.7rem;
+        margin-top: 7px;
+      }
+
+      .kpi small {
+        color: var(--muted);
+      }
+
+      .service-card {
+        display: grid;
+        gap: 10px;
+        min-height: 210px;
+      }
+
+      .service-icon {
+        font-size: 2rem;
+      }
+      .service-card p {
+        color: var(--muted);
+        margin: 0;
+      }
+      .service-card .btn {
+        margin-top: auto;
+        justify-self: start;
+      }
+
+      .doctor-card {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 14px;
+        align-items: start;
+      }
+
+      .doctor-photo {
+        width: 58px;
+        height: 58px;
+        display: grid;
+        place-items: center;
+        border-radius: 16px;
+        background: #dbeafe;
+        font-size: 1.4rem;
+      }
+
+      .doctor-meta {
+        color: var(--muted);
+        font-size: 0.86rem;
+        margin: 4px 0 10px;
+      }
+
+      .progress {
+        height: 9px;
+        background: #e2e8f0;
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .progress > span {
+        display: block;
+        height: 100%;
+        background: var(--primary);
+        border-radius: inherit;
+      }
+
+      .result-row {
+        display: grid;
+        grid-template-columns: 1fr 120px 150px;
+        gap: 12px;
+        padding: 11px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .result-row:last-child {
+        border-bottom: 0;
+      }
+      .result-row strong {
+        display: block;
+      }
+      .result-row small {
+        color: var(--muted);
+      }
+
+      .video-shell {
+        display: grid;
+        grid-template-columns: 1fr 290px;
+        gap: 16px;
+      }
+
+      .video-stage {
+        min-height: 390px;
+        display: grid;
+        place-items: center;
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        background:
+          radial-gradient(
+            circle at top left,
+            rgba(255, 255, 255, 0.16),
+            transparent 35%
+          ),
+          linear-gradient(145deg, #0f2430, #173f4d);
+        color: white;
+      }
+
+      .video-person {
+        text-align: center;
+      }
+      .video-person .big-avatar {
+        width: 110px;
+        height: 110px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 12px;
+        border-radius: 50%;
+        background: #ccfbf1;
+        color: #0f766e;
+        font-size: 2rem;
+        font-weight: 900;
+      }
+
+      .video-controls {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .circle-btn {
+        width: 46px;
+        height: 46px;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+        color: white;
+      }
+
+      .circle-btn.end {
+        background: #dc2626;
+      }
+
+      .chat-panel {
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        min-height: 390px;
+      }
+
+      .chat-messages {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+      }
+
+      .message {
+        width: fit-content;
+        max-width: 88%;
+        padding: 10px 12px;
+        border-radius: 14px;
+        margin-bottom: 10px;
+        background: #e2e8f0;
+      }
+
+      .message.me {
+        margin-left: auto;
+        background: var(--secondary);
+        color: var(--primary-dark);
+      }
+
+      .chat-input {
+        display: flex;
+        gap: 8px;
+        padding: 12px;
+        border-top: 1px solid var(--line);
+      }
+
+      .chat-input input {
+        min-width: 0;
+      }
+
+      .empty {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--muted);
+      }
+
+      .empty-icon {
+        font-size: 2.6rem;
+        margin-bottom: 10px;
+      }
+
+      .summary-list {
+        display: grid;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .summary-list li {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px dashed var(--line);
+      }
+
+      .summary-list li:last-child {
+        border-bottom: 0;
+      }
+      .summary-list span {
+        color: var(--muted);
+      }
+
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 80;
+        background: rgba(15, 23, 42, 0.58);
+      }
+
+      .modal {
+        position: fixed;
+        z-index: 90;
+        width: min(780px, calc(100vw - 30px));
+        max-height: calc(100vh - 40px);
+        overflow: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 20px;
+        background: white;
+        box-shadow: 0 24px 70px rgba(15, 23, 42, 0.35);
+      }
+
+      .modal-header {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 17px 20px;
+        background: white;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .modal-header h2 {
+        margin: 0;
+      }
+      .modal-body {
+        padding: 20px;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .toast {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        z-index: 110;
+        max-width: 380px;
+        padding: 13px 16px;
+        border-radius: 13px;
+        background: #0f2430;
+        color: white;
+        box-shadow: var(--shadow);
+        opacity: 0;
+        transform: translateY(15px);
+        pointer-events: none;
+        transition: 0.22s ease;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .mobile-only {
+        display: none;
+      }
+
+      body.high-contrast {
+        --bg: #000;
+        --surface: #0a0a0a;
+        --text: #fff;
+        --muted: #d1d5db;
+        --line: #535353;
+        --secondary: #003f3a;
+        --shadow: none;
+      }
+
+      body.high-contrast .topbar,
+      body.high-contrast input,
+      body.high-contrast select,
+      body.high-contrast textarea,
+      body.high-contrast .timeline-content,
+      body.high-contrast .chat-panel,
+      body.high-contrast .modal,
+      body.high-contrast .modal-header {
+        background: #0a0a0a;
+        color: #fff;
+      }
+
+      body.high-contrast th {
+        background: #111;
+        color: #fff;
+      }
+      body.high-contrast tbody tr:hover {
+        background: #111;
+      }
+      body.high-contrast .btn-secondary {
+        background: #333;
+        color: #fff;
+      }
+
+      @media (max-width: 1050px) {
+        .grid-4 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .grid-3 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .video-shell {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 820px) {
+        .mobile-only {
+          display: inline-grid;
+          place-items: center;
+        }
+        .topbar {
+          padding: 10px 14px;
+        }
+        .brand small,
+        .role-switch span {
+          display: none;
+        }
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: fixed;
+          z-index: 70;
+          top: 72px;
+          left: 0;
+          width: 275px;
+          transform: translateX(-102%);
+          transition: transform 0.22s ease;
+        }
+
+        .sidebar.open {
+          transform: translateX(0);
+        }
+        .main {
+          padding: 20px 14px;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .brand {
+          min-width: 0;
+        }
+        .brand strong {
+          font-size: 0.96rem;
+        }
+        .top-actions {
+          gap: 6px;
+        }
+        .role-switch {
+          padding: 5px;
+        }
+        .role-switch select {
+          max-width: 125px;
+        }
+        .chip {
+          display: none;
+        }
+
+        .grid-4,
+        .grid-3,
+        .grid-2,
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        .form-group.full {
+          grid-column: auto;
+        }
+        .page-header {
+          display: grid;
+        }
+        .hero {
+          padding: 22px;
+        }
+        .result-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* SaludCerca 2 · Visual system · No external font or image dependencies */
+      :root {
+        --primary: #087d74;
+        --primary-dark: #075e58;
+        --accent: #d5f08a;
+        --text: #1b3034;
+        --muted: #697b7d;
+        --border: #e1e9e7;
+        --bg: #f5f8f7;
+        --radius: 20px;
+        --shadow: 0 8px 28px #123e3506;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        letter-spacing: -0.015em;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+      button:focus-visible,
+      a:focus-visible {
+        outline: 3px solid #c09a25;
+        outline-offset: 3px;
+      }
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.04em;
+      }
+      h1 {
+        font-size: 32px;
+      }
+      h2 {
+        font-size: 21px;
+      }
+      p {
+        line-height: 1.65;
+      }
+      small {
+        line-height: 1.5;
+      }
+      a {
+        color: var(--primary);
+      }
+      .topbar {
+        height: 84px;
+        background: #fff;
+        border-bottom: 1px solid var(--border);
+        padding: 0 36px;
+        box-shadow: none;
+      }
+      .brand-mark {
+        background: var(--primary);
+        border-radius: 14px;
+        box-shadow: none;
+        font-size: 26px;
+      }
+      .brand strong {
+        font-size: 23px;
+        letter-spacing: -0.8px;
+      }
+      .brand small {
+        font-size: 11px;
+        letter-spacing: 0.04em;
+      }
+      .top-actions {
+        gap: 10px;
+      }
+      .chip {
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: #fff;
+        min-height: 40px;
+      }
+      .layout {
+        grid-template-columns: 232px 1fr;
+        min-height: calc(100vh - 84px);
+      }
+      .sidebar {
+        background: #fff;
+        border-right: 1px solid var(--border);
+        padding: 28px 16px;
+        top: 84px;
+        height: calc(100vh - 84px);
+      }
+      .user-card {
+        background: #f4f8f6;
+        border: 0;
+        padding: 14px 10px;
+        border-radius: 14px;
+        margin-bottom: 28px;
+      }
+      .avatar {
+        background: #e3ece8;
+        color: #376558;
+        border-radius: 12px;
+      }
+      .nav-link {
+        padding: 13px 15px;
+        gap: 12px;
+        margin: 4px 0;
+        border-radius: 12px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        color: #667b7b;
+      }
+      .nav-link.active {
+        background: #e8f4ef;
+        color: #126a59;
+        font-weight: 700;
+        border: none;
+      }
+      .nav-link:hover {
+        background: #f1f6f3;
+      }
+      .sidebar-footer {
+        border: 0;
+        margin-top: 35px;
+      }
+      .sidebar-footer p {
+        font-size: 11px;
+      }
+      .main {
+        padding: 30px 38px;
+        max-width: 1450px;
+        width: 100%;
+        min-width: 0;
+      }
+      .view {
+        max-width: 1180px;
+        margin: auto;
+      }
+      .page-header {
+        margin-bottom: 25px;
+      }
+      .page-header p {
+        max-width: 700px;
+        color: var(--muted);
+      }
+      .card {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: none;
+        padding: 24px;
+        background: #fff;
+      }
+      .btn {
+        border-radius: 11px;
+        padding: 12px 18px;
+        font-weight: 650;
+        font-size: 14px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: 1px solid transparent;
+      }
+      .btn-primary,
+      .btn-accent,
+      .btn-success {
+        background: var(--primary);
+        color: #fff;
+        box-shadow: none;
+      }
+      .btn-primary:hover,
+      .btn-accent:hover {
+        background: var(--primary-dark);
+      }
+      .btn-secondary {
+        background: #fff;
+        border-color: var(--border);
+        color: var(--text);
+      }
+      .btn-outline {
+        color: var(--primary);
+        border: 1px solid #c8dcd4;
+        background: transparent;
+      }
+      .btn-sm {
+        padding: 8px 13px;
+        min-height: 38px;
+      }
+      .grid {
+        gap: 18px;
+      }
+      .badge {
+        font-size: 11px;
+        font-weight: 650;
+        padding: 5px 9px;
+      }
+      .badge-warning {
+        background: #fff3d9;
+        color: #83621b;
+      }
+      .badge-success {
+        background: #e7f5ed;
+        color: #226951;
+      }
+      .badge-info {
+        background: #e8f0fa;
+        color: #416680;
+      }
+      .alert {
+        border-radius: 12px;
+        line-height: 1.5;
+        font-size: 13px;
+      }
+      .alert-info {
+        background: #f0f5f7;
+        border-color: #dae5e9;
+        color: #48656f;
+      }
+      .alert-warning {
+        background: #fffaeb;
+        border-color: #f0e4c4;
+      }
+      .modal {
+        border-radius: 24px;
+        max-height: 88dvh;
+        width: min(720px, 94vw);
+      }
+      .modal-body {
+        padding: 24px;
+        overflow: auto;
+      }
+      .modal-header {
+        padding: 22px 24px;
+        border-bottom: 1px solid var(--border);
+      }
+      .form-group label {
+        font-weight: 650;
+        font-size: 13px;
+        color: #425c60;
+      }
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        border-radius: 10px;
+        border: 1px solid #d5dfdc;
+        padding: 12px;
+        background: #fff;
+        max-width: 100%;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: 2px solid #91c6b6;
+        outline-offset: 1px;
+      }
+      .form-grid {
+        gap: 18px;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      th {
+        background: #f5f8f6;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+      }
+      td {
+        font-size: 13px;
+        padding: 18px 14px;
+      }
+      td small {
+        color: var(--muted);
+      }
+      .icon {
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        vertical-align: middle;
+        flex-shrink: 0;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.65;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.13em;
+        font-size: 10px;
+        font-weight: 750;
+        color: #53776c;
+      }
+      .home-intro {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 22px;
+      }
+      .home-intro h1 {
+        font-size: 25px;
+        margin: 0 0 3px;
+      }
+      .home-intro p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .location {
+        font-size: 12px;
+        display: flex;
+        gap: 7px;
+        align-items: center;
+        padding: 10px 13px;
+        border: 1px solid #dbe5e0;
+        border-radius: 30px;
+        background: #fff;
+      }
+      .hero-new {
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        background: #e7f1e9;
+        border-radius: 25px;
+        min-height: 302px;
+        padding: 34px 38px;
+        margin-bottom: 28px;
+      }
+      .hero-new h2 {
+        font-size: 43px;
+        line-height: 1.12;
+        margin: 14px 0 15px;
+        max-width: 490px;
+        color: #153e37;
+        font-weight: 700;
+      }
+      .hero-new h2 em {
+        font-family: Georgia, serif;
+        font-weight: 400;
+        color: #197a62;
+      }
+      .hero-new p {
+        max-width: 380px;
+        color: #587068;
+        font-size: 14px;
+        margin-bottom: 21px;
+      }
+      .hero-new .btn {
+        background: #146d57;
+      }
+      .hero-art {
+        position: relative;
+        display: grid;
+        place-items: center;
+      }
+      .hero-art svg {
+        width: 100%;
+        max-width: 345px;
+        height: 265px;
+      }
+      .float-label {
+        position: absolute;
+        background: #ffffffed;
+        box-shadow: 0 10px 25px #254f4110;
+        padding: 11px 17px;
+        border-radius: 12px;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        bottom: 24px;
+        right: 0;
+      }
+      .float-label .icon {
+        color: #2b8164;
+      }
+      .section-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 28px 0 16px;
+        gap: 16px;
+      }
+      .section-title h2 {
+        margin: 0;
+        font-size: 21px;
+      }
+      .text-btn {
+        border: 0;
+        background: transparent;
+        color: var(--primary);
+        font-size: 12px;
+        font-weight: 650;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px;
+      }
+      .services {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+      .service-tile {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 20px;
+        text-align: left;
+        transition:
+          transform 0.2s,
+          border-color 0.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-height: 173px;
+        color: var(--text);
+      }
+      .service-tile:hover {
+        transform: translateY(-3px);
+        border-color: #83b7a6;
+      }
+      .service-tile strong {
+        font-size: 15px;
+        margin: 14px 0 5px;
+      }
+      .service-tile small {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .service-symbol {
+        background: #e8f4ee;
+        border-radius: 13px;
+        padding: 12px;
+        color: #2f7b64;
+        display: inline-flex;
+      }
+      .service-symbol .icon {
+        width: 23px;
+        height: 23px;
+      }
+      .service-tile:nth-child(2) .service-symbol {
+        background: #edf0fa;
+        color: #64799f;
+      }
+      .service-tile:nth-child(3) .service-symbol {
+        background: #fff2de;
+        color: #ae8539;
+      }
+      .service-tile:nth-child(4) .service-symbol {
+        background: #f6ecf4;
+        color: #996a92;
+      }
+      .health-grid {
+        display: grid;
+        grid-template-columns: 1.35fr 1fr;
+        gap: 18px;
+        margin-top: 25px;
+      }
+      .empty-panel {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 24px 0;
+      }
+      .empty-panel p {
+        margin: 5px 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .empty-panel .service-symbol {
+        padding: 16px;
+      }
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .steps > div {
+        font-size: 12px;
+        color: var(--muted);
+        padding-right: 8px;
+      }
+      .steps b {
+        display: block;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #edf4f0;
+        color: #39765e;
+        text-align: center;
+        line-height: 28px;
+        margin-bottom: 9px;
+      }
+      .steps strong {
+        display: block;
+        font-size: 12px;
+        color: var(--text);
+        margin-bottom: 5px;
+      }
+      .app-banner {
+        background: #183d36;
+        color: #fff;
+        border-radius: 20px;
+        padding: 24px 30px;
+        margin-top: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .app-banner h3 {
+        color: #fff;
+        margin: 0 0 7px;
+        font-size: 21px;
+      }
+      .app-banner p {
+        margin: 0;
+        color: #bccdc4;
+        font-size: 12px;
+      }
+      .app-banner .btn {
+        background: #d6ed9b;
+        color: #214c3a;
+        white-space: nowrap;
+      }
+      .small-label {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .filter-bar {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .filter-bar input {
+        flex: 2;
+        min-width: 180px;
+      }
+      .filter-bar select {
+        flex: 1;
+        min-width: 155px;
+      }
+      .filter-bar input,
+      .filter-bar select {
+        padding: 13px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #fff;
+      }
+      .provider-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 17px;
+      }
+      .provider-head {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        margin-bottom: 18px;
+      }
+      .provider-head h2 {
+        font-size: 17px;
+        margin: 0 0 5px;
+      }
+      .provider-head p {
+        font-size: 12px;
+        margin: 0;
+        color: var(--muted);
+      }
+      .provider-avatar {
+        height: 58px;
+        width: 58px;
+        background: #ecf3ed;
+        color: #477461;
+        border-radius: 17px;
+        display: grid;
+        place-items: center;
+        font-size: 19px;
+        font-weight: 650;
+        flex-shrink: 0;
+      }
+      .provider-line {
+        font-size: 12px;
+        color: #657c75;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 10px 0;
+      }
+      .provider-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 18px;
+        padding-top: 17px;
+        border-top: 1px solid var(--border);
+        gap: 8px;
+      }
+      .price strong {
+        font-size: 21px;
+        display: block;
+      }
+      .price small {
+        font-size: 10px;
+        color: var(--muted);
+      }
+      .wizard-steps {
+        display: flex;
+        gap: 7px;
+        margin-bottom: 23px;
+      }
+      .wizard-steps span {
+        flex: 1;
+        border-bottom: 3px solid #e5ece8;
+        padding: 10px 0;
+        color: #8b9b95;
+        font-size: 12px;
+      }
+      .wizard-steps .on {
+        border-color: #157d64;
+        color: #157d64;
+        font-weight: 700;
+      }
+      .review-line {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 13px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 14px;
+      }
+      .review-line span {
+        color: var(--muted);
+      }
+      .review-line strong {
+        text-align: right;
+      }
+      .notice-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #b78b31;
+        display: inline-block;
+        margin-right: 5px;
+      }
+      .record-list {
+        display: grid;
+        gap: 14px;
+      }
+      .record-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 12px;
+      }
+      .record-head h2 {
+        margin: 0 0 6px;
+        font-size: 18px;
+      }
+      .record-head p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .checks {
+        display: grid;
+        gap: 12px;
+      }
+      .checks label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+      }
+      .checks input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+      }
+      .bottomnav {
+        display: none;
+      }
+      .toast {
+        background: #163e34;
+        border-radius: 12px;
+      }
+      .sync-label {
+        font-size: 10px;
+        color: #83938b;
+      }
+      .portal-title {
+        font-size: 12px;
+        margin: 25px 12px 8px;
+        color: var(--muted);
+      }
+      .help-footer {
+        display: flex;
+        gap: 18px;
+        justify-content: center;
+        margin: 28px 0 5px;
+        flex-wrap: wrap;
+      }
+      .high-contrast {
+        --text: #071b16;
+        --muted: #344f43;
+        --border: #749786;
+        --bg: #fff;
+      }
+      .high-contrast .small-label,
+      .high-contrast .sync-label {
+        color: #344f43;
+      }
+      .high-contrast .hero-new {
+        background: #e1efdf;
+      }
+      .bigtext {
+        font-size: 115%;
+      }
+      .camera-preview {
+        width: 100%;
+        background: #142e2a;
+        min-height: 220px;
+        border-radius: 16px;
+        object-fit: cover;
+        max-height: 300px;
+      }
+      .video-placeholder {
+        background: #14382f;
+        color: #fff;
+        padding: 45px 20px;
+        border-radius: 16px;
+        text-align: center;
+      }
+      .video-placeholder h2 {
+        color: #fff;
+      }
+      .pill-tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+      .pill-tabs button {
+        border-radius: 30px;
+        padding: 9px 15px;
+        border: 1px solid var(--border);
+        background: #fff;
+        color: var(--muted);
+      }
+      .pill-tabs button.active {
+        background: var(--primary);
+        color: #fff;
+      }
+      .file-name {
+        overflow-wrap: anywhere;
+      }
+      .summary-list strong {
+        overflow-wrap: anywhere;
+      }
+      .mobile-only {
+        display: none;
+      }
+      @media (min-width: 1500px) {
+        .hero-new h2 {
+          font-size: 48px;
+        }
+      }
+      @media (max-width: 1100px) {
+        .main {
+          padding: 25px;
+        }
+        .provider-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .services {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .hero-new {
+          padding: 30px;
+        }
+        .hero-new h2 {
+          font-size: 36px;
+        }
+        .layout {
+          grid-template-columns: 210px 1fr;
+        }
+        .hero-art svg {
+          max-width: 260px;
+        }
+        .health-grid {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          width: auto;
+        }
+      }
+      @media (max-width: 760px) {
+        .topbar {
+          height: 70px;
+          padding: 0 16px;
+        }
+        .brand strong {
+          font-size: 21px;
+        }
+        .brand small {
+          display: none;
+        }
+        .brand-mark {
+          width: 36px;
+          height: 36px;
+        }
+        .top-actions {
+          gap: 5px;
+        }
+        .top-actions .desktop-only {
+          display: none;
+        }
+        .layout {
+          display: block;
+        }
+        .sidebar {
+          display: none;
+          position: fixed;
+          z-index: 40;
+          top: 70px;
+          left: 0;
+          width: 260px;
+          height: calc(100dvh - 70px);
+          box-shadow: 10px 0 60px #123d3822;
+        }
+        .sidebar.open {
+          display: block;
+        }
+        .mobile-only {
+          display: inline-flex;
+        }
+        .main {
+          padding: 22px 16px 100px;
+        }
+        .hero-new {
+          grid-template-columns: 1fr;
+          padding: 25px;
+          min-height: unset;
+        }
+        .hero-new h2 {
+          font-size: 35px;
+          max-width: 360px;
+        }
+        .hero-art {
+          display: none;
+        }
+        .services {
+          gap: 10px;
+        }
+        .service-tile {
+          padding: 17px;
+          min-height: 160px;
+        }
+        .home-intro h1 {
+          font-size: 22px;
+        }
+        .location {
+          font-size: 10px;
+          padding: 9px;
+        }
+        .location .icon {
+          width: 15px;
+        }
+        .provider-grid {
+          grid-template-columns: 1fr;
+        }
+        .card {
+          padding: 20px;
+        }
+        .app-banner {
+          padding: 22px;
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .bottomnav {
+          display: flex;
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 30;
+          background: #fffffff5;
+          backdrop-filter: blur(15px);
+          border-top: 1px solid var(--border);
+          padding: 8px 6px max(9px, env(safe-area-inset-bottom));
+          justify-content: space-around;
+        }
+        .bottomnav button {
+          border: 0;
+          background: none;
+          color: #71857c;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+          font-size: 10px;
+          padding: 5px 9px;
+        }
+        .bottomnav button.active {
+          color: #067d64;
+        }
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        .form-group.full {
+          grid-column: auto;
+        }
+        .page-header h1 {
+          font-size: 28px;
+        }
+        .record-head {
+          flex-wrap: wrap;
+        }
+        .grid-4,
+        .grid-3,
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+        .help-footer {
+          gap: 8px;
+        }
+        .modal {
+          width: calc(100vw - 24px);
+          max-height: 90dvh;
+          top: 50%;
+        }
+        .modal-body {
+          padding: 18px;
+        }
+        .modal-header {
+          padding: 18px;
+        }
+        .hero-new p {
+          font-size: 13px;
+        }
+        .top-actions .chip {
+          padding: 7px;
+        }
+        .steps {
+          gap: 8px;
+        }
+        .page-header .actions {
+          margin-top: 12px;
+        }
+        .service-tile .service-symbol {
+          padding: 9px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          scroll-behavior: auto !important;
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+      /* Contrast and sizing for shared shell components. */
+      .user-card strong {
+        color: var(--text);
+      }
+      .user-card small {
+        color: var(--muted);
+      }
+      .hero-art .float-label svg.icon {
+        width: 20px;
+        height: 20px;
+        max-width: 20px;
+      }
+      .sidebar-footer {
+        color: var(--muted);
+      }
+      body.high-contrast .topbar,
+      body.high-contrast .modal,
+      body.high-contrast .modal-header,
+      body.high-contrast input,
+      body.high-contrast select,
+      body.high-contrast textarea {
+        background: #fff;
+        color: #071b16;
+      }
+      body.high-contrast th {
+        background: #e1efdf;
+        color: #071b16;
+      }
+      body.high-contrast .btn-secondary {
+        background: #fff;
+        color: #071b16;
+        border-color: #344f43;
+      }
+      @media (max-width: 760px) {
+        .top-actions {
+          display: flex;
+        }
+        .top-actions #fontBtn,
+        .top-actions #contrastBtn,
+        .top-actions [data-action="workspace"] {
+          display: none;
+        }
+        .top-actions #notifyBtn {
+          display: inline-flex;
+        }
+        .topbar {
+          gap: 9px;
+        }
+        .brand {
+          margin-right: auto;
+          gap: 8px;
+        }
+        .topbar .brand strong {
+          font-size: 20px;
+        }
+      }
+      @media (min-width: 761px) {
+        .sidebar {
+          position: sticky;
+          transform: none;
+          display: block;
+          width: auto;
+        }
+      }
+
+      /* Red integral: catálogo, recorridos y preferencias. */
+      .services{grid-template-columns:repeat(4,minmax(0,1fr))}
+      .catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+      .catalog-card{display:flex;flex-direction:column;gap:9px;min-height:225px}
+      .catalog-card .service-symbol{width:max-content}
+      .catalog-card h3{font-size:18px;margin:0}
+      .catalog-card p{font-size:13px;color:var(--muted);margin:0;flex:1}
+      .catalog-card .btn{align-self:flex-start}
+      .service-status{font-size:11px;color:#715c2c;background:#fff9e9;padding:5px 8px;border-radius:8px;width:fit-content}
+      .overview-strip{background:#e9f5f0;border:1px solid #d1e6d9;border-radius:18px;padding:18px 23px;margin:20px 0;display:flex;align-items:center;gap:14px;justify-content:space-between;flex-wrap:wrap}
+      .overview-strip p{margin:4px 0 0;color:#4e6c5f;font-size:12px}
+      .path-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
+      .path-step{background:#f7faf8;border:1px solid var(--border);border-radius:14px;padding:16px 12px}
+      .path-step b{display:block;font-size:11px;color:#26735d;margin-bottom:7px}
+      .path-step strong{font-size:13px}
+      .path-step small{display:block;color:var(--muted);font-size:11px;margin-top:5px}
+      .call-911{display:inline-flex;align-items:center;gap:8px;background:#ad2f2b;color:#fff;text-decoration:none;border-radius:12px;padding:14px 20px;font-weight:750}
+      .call-911:hover{color:#fff;background:#892420}
+      .priority-card{border:1px solid #efd4d0;background:#fffafa}
+      .service-detail-hero{display:flex;align-items:flex-start;gap:14px}
+      .service-detail-hero h2{margin:0 0 6px}
+      .service-detail-hero p{margin:0;color:var(--muted);font-size:13px}
+      .sticky-note{margin-top:14px;font-size:12px;color:#6d6173}
+      .card input[type="date"],.card input[type="time"]{min-width:0}
+      @media (max-width:1100px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.path-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+      @media (max-width:760px){.services{grid-template-columns:repeat(2,minmax(0,1fr))}.catalog-grid{grid-template-columns:1fr}.path-grid{grid-template-columns:1fr 1fr}.topbar .brand small{display:none}}
+      @media (max-width:420px){.services{grid-template-columns:repeat(2,minmax(0,1fr))}.service-tile{min-height:155px}.path-grid{grid-template-columns:1fr}}
+
+      /* Acabado visual del portal SaludCerca */
+      .topbar { background:rgba(255,255,255,.98); backdrop-filter:blur(16px) }
+      .brand-mark { background:linear-gradient(145deg,#087d74,#0d5c51); box-shadow:0 7px 18px #087d7424 }
+      .brand strong { color:#16463e }
+      .sidebar { box-shadow:4px 0 16px #123e3505 }
+      .card, .catalog-card { transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease }
+      .catalog-card:hover { transform:translateY(-3px); box-shadow:0 14px 28px #123e3512; border-color:#b8d6c8 }
+      .catalog-card .service-symbol { background:#ebf7f0 }
+      .service-status { background:#edf5f1; color:#3d765f; font-weight:650; letter-spacing:.02em }
+      .network-lead { padding:23px 27px; border-radius:20px; color:#fff; background:linear-gradient(120deg,#126d5e,#14483e); display:flex; align-items:center; justify-content:space-between; gap:25px; margin-bottom:23px }
+      .network-lead strong {font-size:21px;display:block}
+      .network-lead p {color:#d7ebe2;font-size:13px;margin:6px 0 0;max-width:600px}
+      .network-lead .btn {background:#d8efa5;color:#174b3b;flex-shrink:0}
+      .services .service-tile { border-radius:17px }
+      .service-detail-hero .service-symbol {flex-shrink:0}
+      .service-highlight {margin:18px 0 0;padding:17px 19px;border:1px solid #dcebe2;background:#f7fbf9;border-radius:15px}
+      .service-highlight strong {display:block;font-size:13px;margin-bottom:5px}
+      .service-highlight p {margin:0;font-size:13px;color:#58766a}
+      .service-detail-actions {margin-top:23px;display:flex;gap:10px;flex-wrap:wrap}
+      .service-process {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-top:20px}
+      .service-process>div {background:#f6faf7;border:1px solid #e0ece5;border-radius:14px;padding:16px}
+      .service-process b {display:block;color:#2f775d;margin-bottom:8px}
+      .service-process span {font-size:13px;color:#526d60}
+      @media(max-width:760px){.network-lead{flex-direction:column;align-items:flex-start;padding:20px}.network-lead strong{font-size:18px}.service-process{grid-template-columns:1fr}}
+    </style>
+  </head>
+  <body>
+    <noscript>Para utilizar SaludCerca, activa JavaScript en tu navegador.</noscript>
+
+    <div id="app">
+      <header class="topbar">
+        <button
+          class="icon-btn mobile-only"
+          id="menuBtn"
+          aria-label="Abrir menú"
+        >
+          ☰
+        </button>
+
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">✚</div>
+          <div>
+            <strong id="brandName">SaludCerca</strong>
+            <small>Conecta · Coordina · Acompaña</small>
+          </div>
+        </div>
+
+        <div class="top-actions">
+          <button class="chip" id="fontBtn" title="Aumentar tamaño de letra">
+            A+
+          </button>
+          <button class="chip" id="contrastBtn" title="Cambiar contraste">
+            ◐
+          </button>
+
+          <button
+            class="chip"
+            id="notifyBtn"
+            data-action="notifications"
+            aria-label="Notificaciones"
+          >
+            Avisos</button
+          ><button class="chip" data-action="workspace">Espacios</button>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="sidebar" id="sidebar">
+          <div class="user-card">
+            <div class="avatar" id="avatar">AM</div>
+            <div>
+              <strong id="roleName">Ana Martínez</strong>
+              <small id="roleSubtitle">Paciente</small>
+            </div>
+          </div>
+
+          <nav id="nav"></nav>
+
+          <div class="sidebar-footer">
+            <button class="nav-link" data-action="help">
+              Ayuda y privacidad</button
+            ><small>Tu salud, organizada</small>
+          </div>
+        </aside>
+
+        <main class="main">
+          <section id="view" class="view" aria-live="polite"></section>
+        </main>
+      </div>
+      <nav id="bottomnav" class="bottomnav" aria-label="Navegación móvil"></nav>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+    <div class="modal-backdrop hidden" id="modalBackdrop"></div>
+    <div
+      class="modal hidden"
+      id="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+      <div class="modal-header">
+        <h2 id="modalTitle">Ventana</h2>
+        <button class="icon-btn" id="closeModalBtn" aria-label="Cerrar">
+          ✕
+        </button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+    </div>
+
+    <script>
+      (() => {
+        "use strict";
+
+        const STORAGE_KEY = "saludCercaV4";
+        const $ = (selector) => document.querySelector(selector);
+        const $$ = (selector) =>
+          Array.from(document.querySelectorAll(selector));
+
+        const defaultState = {
+          version: 2,
+          settings: {
+            appName: "SaludCerca",
+            homeLabEnabled: true,
+            pharmacyEnabled: true,
+            appointmentPrice: 18,
+            homeVisitPrice: 35,
+          },
+          currentRole: "patient",
+          currentView: "dashboard",
+          accessibility: {
+            largeText: false,
+            highContrast: false,
+          },
+          patient: {
+            id: "P-001",
+            name: "",
+            age: "",
+            document: "",
+            phone: "",
+            email: "",
+            address: "",
+            allergies: "",
+            conditions: "",
+            medications: "",
+            caregiver: {
+              name: "",
+              relation: "",
+              phone: "",
+              access: false,
+              appointments: false,
+              results: false,
+              prescriptions: false,
+            },
+          },
+          doctors: [
+            {
+              id: "D-001",
+              name: "Dra. Laura Gómez",
+              specialty: "Medicina general",
+              mode: "Virtual y domicilio",
+              price: 18,
+              available: true,
+              license: "Pendiente de verificación",
+              experience: "Información del profesional",
+            },
+            {
+              id: "D-002",
+              name: "Dr. Carlos Rivera",
+              specialty: "Medicina interna",
+              mode: "Virtual",
+              price: 22,
+              available: true,
+              license: "Pendiente de verificación",
+              experience: "Información del profesional",
+            },
+            {
+              id: "D-003",
+              name: "Dra. Elena Chen",
+              specialty: "Geriatría",
+              mode: "Virtual y domicilio",
+              price: 28,
+              available: true,
+              license: "Pendiente de verificación",
+              experience: "Información del profesional",
+            },
+          ],
+          zone: "Santiago, Veraguas",
+          appointments: [],
+          labOrders: [],
+          labResults: [],
+          prescriptions: [],
+          notifications: [],
+          audit: [],
+          pharmacyOrders: [],
+          coordinationRequests: [],
+          notes: [],
+        };
+
+        let state = loadState();
+        let currentRole = state.currentRole || "patient";
+        let currentView = state.currentView || "dashboard";
+        let toastTimer = null;
+
+        let focusBeforeModal = null,
+          cameraStream = null,
+          booking = null,
+          searchQuery = "",
+          specialtyFilter = "",
+          modeFilter = "",
+          appointmentFilter = "all",
+          selectedAppointment = null;
+        const navIcons = {
+          dashboard: "home",
+          newAppointment: "search",
+          appointments: "calendar",
+          homeCare: "home",
+          lab: "lab",
+          pharmacy: "pill",
+          results: "file",
+          prescriptions: "file",
+          caregiver: "users",
+          profile: "user",
+          emergency: "phone",
+          schedule: "calendar",
+          patients: "users",
+          orders: "lab",
+          manageServices: "settings",
+          network: "users",
+          careJourney: "heart",
+          coordination: "calendar",
+          myServices: "file",
+          rehabilitation: "heart",
+          physiotherapy: "heart",
+          transport: "pin",
+          nursing: "home",
+          prevention: "shield",
+          clinic: "home",
+          hospital: "home",
+          ambulanceScheduled: "phone",
+          requestsAdmin: "file",
+        };
+        const roleData = {
+          patient: {
+            name: () => state.patient.name || "Mi cuenta",
+            subtitle: "Paciente",
+          },
+          doctor: {
+            name: () => "Equipo médico",
+            subtitle: "Espacio profesional",
+          },
+          lab: { name: () => "Laboratorio", subtitle: "Espacio profesional" },
+          admin: { name: () => "Administración", subtitle: "Gestión de servicios" },
+        };
+        const navConfig = {
+          patient: [
+            ["dashboard", "Inicio"],
+            ["network", "Red de servicios"],
+            ["careJourney", "Mi atención"],
+            ["newAppointment", "Médicos y consultas"],
+            ["appointments", "Mis citas médicas"],
+            ["myServices", "Mis servicios"],
+            ["homeCare", "Atención en casa"],
+            ["lab", "Laboratorio"],
+            ["pharmacy", "Farmacias"],
+            ["physiotherapy", "Fisioterapia"],
+            ["rehabilitation", "Rehabilitación"],
+            ["nursing", "Enfermería"],
+            ["transport", "Transporte asistido"],
+            ["prevention", "Prevención"],
+            ["results", "Mis resultados"],
+            ["prescriptions", "Indicaciones"],
+            ["caregiver", "Mi cuidador"],
+            ["profile", "Mi perfil"],
+            ["emergency", "Emergencias"],
+          ],
+          doctor: [
+            ["dashboard", "Inicio"],
+            ["schedule", "Agenda"],
+            ["patients", "Pacientes"],
+            ["orders", "Órdenes"],
+            ["medicalNotes", "Notas e indicaciones"],
+            ["results", "Resultados"],
+          ],
+          lab: [
+            ["dashboard", "Inicio"],
+            ["labQueue", "Solicitudes"],
+            ["homeVisits", "Visitas"],
+            ["uploadResults", "Resultados"],
+          ],
+          admin: [
+            ["dashboard", "Inicio"],
+            ["manageDoctors", "Profesionales"],
+            ["requestsAdmin", "Gestiones integrales"],
+            ["manageServices", "Servicios"],
+            ["reports", "Reportes"],
+            ["audit", "Actividad"],
+          ],
+        };
+
+
+        // Catálogo por categoría de servicio.
+        const integralServices = {
+          clinic: {title:"Clínicas privadas",icon:"home",view:"clinic",summary:"Consultas y servicios ambulatorios de clínicas participantes.",detail:"Búsqueda y coordinación de citas según agenda del establecimiento. La confirmación requiere un acuerdo e integración real.",sample:"Clínica privada participante",phase:"Desarrollo de red"},
+          hospital: {title:"Hospitales privados",icon:"home",view:"hospital",summary:"Orientación hacia servicios hospitalarios privados programados.",detail:"Solicitud de información para consultas o procedimientos electivos. No incluye triaje, camas ni urgencias hospitalarias.",sample:"Hospital privado participante",phase:"Desarrollo de red"},
+          physiotherapy: {title:"Fisioterapia",icon:"heart",view:"physiotherapy",summary:"Sesiones presenciales o domiciliarias con profesionales autorizados.",detail:"Evaluación inicial y sesiones programadas de fisioterapia, según indicación y criterio del profesional.",sample:"Centro o profesional de fisioterapia",phase:"Expansión progresiva"},
+          rehabilitation: {title:"Rehabilitación",icon:"heart",view:"rehabilitation",summary:"Coordinación de recuperación y programas de rehabilitación.",detail:"Interés en rehabilitación funcional mediante instituciones y equipos competentes; cada plan clínico debe definirse presencialmente o en consulta adecuada.",sample:"Centro de rehabilitación privado",phase:"Expansión progresiva"},
+          nursing: {title:"Enfermería domiciliaria",icon:"home",view:"nursing",summary:"Atención de enfermería programada dentro de competencias profesionales.",detail:"Gestión de interés en servicios de enfermería con proveedores acreditados y cobertura confirmada.",sample:"Equipo autorizado de enfermería",phase:"Expansión progresiva"},
+          transport: {title:"Transporte asistido",icon:"pin",view:"transport",summary:"Traslados no urgentes para personas que requieren apoyo al movilizarse.",detail:"Traslados programados sin respuesta de emergencia; el tipo de vehículo y acompañamiento se confirmarían por el operador.",sample:"Operador de transporte asistido",phase:"Expansión progresiva"},
+          ambulanceScheduled: {title:"Ambulancia programada",icon:"phone",view:"ambulanceScheduled",summary:"Traslados clínicos coordinados no urgentes, cuando corresponda.",detail:"Traslado en ambulancia con indicación o evaluación pertinente, según equipamiento, personal y proveedor habilitado. No despacha ambulancias de emergencia.",sample:"Operador habilitado de ambulancias",phase:"Plan futuro"},
+          prevention: {title:"Programas preventivos",icon:"shield",view:"prevention",summary:"Chequeos, orientación y programas de prevención con aliados.",detail:"Interés en evaluaciones preventivas y seguimiento según edad, antecedentes y criterio profesional, sin diagnósticos automatizados.",sample:"Clínica o programa de prevención",phase:"Expansión progresiva"}
+        };
+        const partnerDirectory = [
+          {id:"med",name:"Médicos privados",icon:"heart",desc:"Especialidades, consultas presenciales o virtuales",view:"newAppointment",phase:"Consultas"},
+          {id:"clinic",name:"Clínicas privadas",icon:"home",desc:"Consulta y atención ambulatoria programada",view:"clinic",phase:"Red por validar"},
+          {id:"hospital",name:"Hospitales privados",icon:"home",desc:"Servicios electivos y consultas externas",view:"hospital",phase:"Red por validar"},
+          {id:"lab",name:"Laboratorios clínicos",icon:"lab",desc:"Órdenes y coordinación de tomas de muestras",view:"lab",phase:"Laboratorio"},
+          {id:"pharmacy",name:"Farmacias participantes",icon:"pill",desc:"Medicamentos, recetas y opciones de entrega",view:"pharmacy",phase:"Farmacias"},
+          ...Object.entries(integralServices).filter(([key])=>!['clinic','hospital'].includes(key)).map(([key,s])=>({id:key,name:s.title,icon:s.icon,desc:s.summary,view:s.view,phase:s.phase}))
+        ];
+        let catalogSearch="";
+
+        function loadState() {
+          try {
+            const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+            if (!raw || raw.version !== 2) return structuredClone(defaultState);
+            const merged = { ...structuredClone(defaultState), ...raw };
+            for (const key of [
+              "appointments",
+              "labOrders",
+              "labResults",
+              "prescriptions",
+              "notifications",
+              "audit",
+              "pharmacyOrders",
+              "coordinationRequests",
+              "notes",
+            ]) {
+              if (!Array.isArray(merged[key])) merged[key] = [];
+            }
+            merged.patient = {
+              ...defaultState.patient,
+              ...raw.patient,
+              caregiver: {
+                ...defaultState.patient.caregiver,
+                ...raw.patient?.caregiver,
+              },
+            };
+            merged.settings = { ...defaultState.settings, ...raw.settings };
+            return merged;
+          } catch {
+            return structuredClone(defaultState);
+          }
+        }
+
+        function saveState(action = "") {
+          state.currentRole = currentRole;
+          state.currentView = currentView;
+          if (action)
+            state.audit.unshift({
+              time: new Date().toISOString(),
+              action,
+              role: currentRole,
+            });
+          state.audit = state.audit.slice(0, 200);
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          } catch {
+            toast(
+              "No se pudo guardar. El almacenamiento del navegador está lleno o bloqueado.",
+            );
+            return false;
+          }
+          return true;
+        }
+
+        function formatDate(dateString) {
+          if (!dateString) return "Sin fecha";
+          const date = new Date(`${dateString}T12:00:00`);
+          return new Intl.DateTimeFormat("es-PA", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          }).format(date);
+        }
+
+        function money(value) {
+          return new Intl.NumberFormat("es-PA", {
+            style: "currency",
+            currency: "USD",
+          }).format(value || 0);
+        }
+
+        function statusBadge(status) {
+          const s = String(status || "").toLowerCase();
+          let cls = "badge-neutral";
+          if (s.includes("pend")) cls = "badge-warning";
+          else if (
+            s.includes("confirm") ||
+            s.includes("revis") ||
+            s.includes("complet") ||
+            s.includes("cargado")
+          )
+            cls = "badge-success";
+          else if (
+            s.includes("pend") ||
+            s.includes("creada") ||
+            s.includes("program")
+          )
+            cls = "badge-warning";
+          else if (s.includes("cancel")) cls = "badge-danger";
+          else if (s.includes("proceso") || s.includes("acept"))
+            cls = "badge-info";
+          return `<span class="badge ${cls}">${escapeHtml(status)}</span>`;
+        }
+
+        function escapeHtml(value) {
+          return String(value ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+        }
+
+        function toast(message) {
+          const el = $("#toast");
+          el.textContent = message;
+          el.classList.add("show");
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => el.classList.remove("show"), 2600);
+        }
+
+        function openModal(title, html) {
+          focusBeforeModal = document.activeElement;
+          $("#modalTitle").textContent = title;
+          $("#modalBody").innerHTML = html;
+          $("#modalBackdrop").classList.remove("hidden");
+          $("#modal").classList.remove("hidden");
+          $("#app").inert = true;
+          document.body.style.overflow = "hidden";
+          $("#closeModalBtn").focus();
+        }
+
+        function closeModal() {
+          if (cameraStream) {
+            cameraStream.getTracks().forEach((t) => t.stop());
+            cameraStream = null;
+          }
+          $("#modalBackdrop").classList.add("hidden");
+          $("#modal").classList.add("hidden");
+          $("#modalBody").innerHTML = "";
+          $("#app").inert = false;
+          document.body.style.overflow = "";
+          if (focusBeforeModal?.isConnected) focusBeforeModal.focus();
+        }
+
+        function applyAccessibility() {
+          document.documentElement.style.setProperty(
+            "--font-scale",
+            state.accessibility.largeText ? "1.14" : "1",
+          );
+          document.body.classList.toggle(
+            "high-contrast",
+            !!state.accessibility.highContrast,
+          );
+        }
+
+        function setRole(role) {
+          if (!roleData[role]) return;
+          currentRole = role;
+          currentView = "dashboard";
+          closeModal();
+          saveState();
+          render();
+        }
+
+        function setView(view) {
+          if (!views[currentRole]?.[view]) return;
+          currentView = view;
+          saveState();
+          render();
+          $("#sidebar").classList.remove("open");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function renderShell() {
+          if (!roleData[currentRole]) currentRole = "patient";
+          const info = roleData[currentRole];
+          $("#roleName").textContent = info.name();
+          $("#roleSubtitle").textContent = info.subtitle;
+          $("#avatar").textContent =
+            currentRole === "patient"
+              ? initials(state.patient.name || "Mi cuenta")
+              : initials(info.name());
+          $("#brandName").textContent = state.settings.appName;
+          $("#nav").innerHTML = navConfig[currentRole]
+            .map(
+              ([v, label]) =>
+                `<button class="nav-link ${v === currentView ? "active" : ""}" data-view="${v}" ${v === currentView ? 'aria-current="page"' : ""}>${icon(navIcons[v] || "file")}${label}</button>`,
+            )
+            .join("");
+          $("#bottomnav").innerHTML = (
+            currentRole === "patient"
+              ? [
+                  ["dashboard", "Inicio", "home"],
+                  ["network", "Explorar", "search"],
+                  ["careJourney", "Mi atención", "heart"],
+                  ["profile", "Cuenta", "user"],
+                ]
+              : [
+                  ["dashboard", "Inicio", "home"],
+                  ["workspace", "Cambiar espacio", "users"],
+                ]
+          )
+            .map(
+              ([v, l, i]) =>
+                `<button class="${v === currentView ? "active" : ""}" ${v === "workspace" ? 'data-action="workspace"' : `data-view="${v}"`}>${icon(i)}${l}</button>`,
+            )
+            .join("");
+          $("#notifyBtn").innerHTML =
+            icon("bell") +
+            (state.notifications.some((n) => !n.read)
+              ? '<span class="notice-dot"></span>'
+              : "");
+        }
+
+        function render() {
+          renderShell();
+          const renderer =
+            views[currentRole]?.[currentView] || views[currentRole].dashboard;
+          $("#view").innerHTML = renderer();
+          bindViewEvents();
+        }
+
+        function pageHeader(title, description, actions = "") {
+          return `
+      <div class="page-header">
+        <div>
+          <h1>${title}</h1>
+          <p>${description}</p>
+        </div>
+        ${actions ? `<div class="actions">${actions}</div>` : ""}
+      </div>
+    `;
+        }
+
+        function dashboardPatient() {
+          const next = state.appointments
+            .filter(
+              (a) =>
+                !["Cancelada", "Completada"].includes(a.status) &&
+                a.date >= localDate(),
+            )
+            .sort((a, b) =>
+              (a.date + a.time).localeCompare(b.date + b.time),
+            )[0];
+          const name = state.patient.name.trim().split(" ")[0];
+          const svc = [
+            ["heart", "Médicos", "Consulta privada", "newAppointment"],
+            ["home", "Clínicas y hospitales", "Red privada", "network"],
+            ["lab", "Laboratorio", "Pruebas y resultados", "lab"],
+            ["pill", "Farmacias", "Medicamentos y entrega", "pharmacy"],
+            ["heart", "Fisioterapia", "Sesiones y recuperación", "physiotherapy"],
+            ["heart", "Rehabilitación", "Programas de cuidado", "rehabilitation"],
+            ["pin", "Transporte asistido", "Traslados programados", "transport"],
+            ["shield", "Prevención", "Chequeos y programas", "prevention"],
+          ];
+          return `<div class="home-intro"><div><h1>${name ? "Hola, " + escapeHtml(name) : "Bienvenido a SaludCerca"}</h1><p>Tus servicios de salud, en un solo lugar.</p></div><button class="location" data-action="coverage">${icon("pin")}${escapeHtml(state.zone || "Santiago, Veraguas")}</button></div>
+    <section class="hero-new"><div><span class="eyebrow">Tu salud, tus opciones</span><h2>Tu salud, tus opciones.<br><em>Todo más cerca.</em></h2><p>Explora médicos, clínicas, laboratorios, farmacias, terapias, prevención y movilidad, con tus gestiones organizadas en un solo lugar.</p><button class="btn btn-primary" data-view="network">Explorar servicios ${icon("arrow")}</button></div><div class="hero-art">${careIllustration()}<div class="float-label">${icon("heart")}El cuidado empieza contigo</div></div></section>
+    <div class="section-title"><h2>¿Qué necesitas hoy?</h2><span class="small-label">Elige tu servicio</span></div><div class="services">${svc.map(([i, t, d, v]) => `<button class="service-tile" data-view="${v}"><span class="service-symbol">${icon(i)}</span><strong>${t}</strong><small>${d}</small></button>`).join("")}</div>
+    <div class="overview-strip"><div><strong>Conecta · Coordina · Acompaña</strong><p>Un mismo recorrido para organizar servicios privados y apoyar al paciente o cuidador.</p></div><button class="btn btn-secondary" data-view="careJourney">Ver continuidad de atención ${icon("arrow")}</button></div>
+    <div class="health-grid"><article class="card"><div class="section-title" style="margin:0"><h2>Tu próxima atención</h2><button class="text-btn" data-view="appointments">Ver todas ${icon("arrow")}</button></div>${next ? `<div class="empty-panel"><span class="service-symbol">${icon("calendar")}</span><div><strong>${escapeHtml(next.doctorName)}</strong><p>${formatDate(next.date)} · ${escapeHtml(next.time)}<br>${escapeHtml(next.mode)}</p>${statusBadge(next.status)}</div></div><button class="btn btn-secondary" data-action="appointmentDetail" data-id="${next.id}">Ver solicitud</button>` : `<div class="empty-panel"><span class="service-symbol">${icon("calendar")}</span><div><strong>Todo empieza con una cita</strong><p>Encuentra el servicio que necesitas y organiza tu próxima atención.</p></div></div><button class="btn btn-secondary" data-view="newAppointment">Explorar profesionales</button>`}</article>
+    <article class="card"><span class="eyebrow">Así de sencillo</span><h2 style="margin:10px 0">Contigo en cada paso</h2><div class="steps"><div><b>1</b><strong>Elige</strong>Encuentra tu servicio.</div><div><b>2</b><strong>Organiza</strong>Selecciona fecha y lugar.</div><div><b>3</b><strong>Da seguimiento</strong>Consulta tus gestiones.</div></div><button class="text-btn" style="margin-top:17px" data-view="caregiver">También puedes cuidar de tu familia ${icon("arrow")}</button></article></div>
+    <section class="app-banner"><div><h3>SaludCerca va contigo</h3><p>Una experiencia pensada para tu celular, tablet y computadora.</p></div><button class="btn" data-action="appInfo">${icon("phone")}En tu celular</button></section>
+    <div class="help-footer"><button class="text-btn" data-action="coverage">Zonas de atención</button><button class="text-btn" data-action="help">Ayuda y privacidad</button><button class="text-btn" data-action="workspace">Espacio profesional</button></div>`;
+        }
+
+        function patientAppointments() {
+          const all = state.appointments
+            .filter((a) => a.patientId === state.patient.id)
+            .sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
+          const rows = all.filter(
+            (a) =>
+              appointmentFilter === "all" ||
+              (appointmentFilter === "active"
+                ? !["Cancelada", "Completada"].includes(a.status)
+                : ["Cancelada", "Completada"].includes(a.status)),
+          );
+          return `${pageHeader("Mis citas", "Consulta tus solicitudes y organiza tu próxima atención.", `<button class="btn btn-primary" data-view="newAppointment">Nueva solicitud</button>`)}<div class="pill-tabs">${[
+            ["all", "Todas"],
+            ["active", "Pendientes"],
+            ["history", "Historial"],
+          ]
+            .map(
+              ([v, l]) =>
+                `<button class="${appointmentFilter === v ? "active" : ""}" data-action="filterAppointments" data-id="${v}">${l}</button>`,
+            )
+            .join(
+              "",
+            )}</div><div class="record-list">${rows.map((a) => `<article class="card"><div class="record-head"><div><h2>${escapeHtml(a.doctorName)}</h2><p>${escapeHtml(a.specialty)} · ${escapeHtml(a.mode)}</p></div>${statusBadge(a.status)}</div><p>${icon("calendar")} ${formatDate(a.date)} · ${escapeHtml(a.time)} <span class="small-label">${escapeHtml(a.id)}</span></p><div class="actions"><button class="btn btn-secondary btn-sm" data-action="appointmentDetail" data-id="${a.id}">Ver detalles</button>${!["Cancelada", "Completada"].includes(a.status) ? `<button class="btn btn-secondary btn-sm" data-action="reschedule" data-id="${a.id}">Reprogramar</button><button class="text-btn" data-action="cancelAppointment" data-id="${a.id}">Cancelar</button>` : ""}${a.mode === "Videollamada" && a.status === "Confirmada" ? `<button class="btn btn-primary btn-sm" data-action="joinCall" data-id="${a.id}">Sala de espera</button>` : ""}</div></article>`).join("") || emptyState("calendar", "Tu agenda comienza aquí", "Busca un profesional y guarda tu primera solicitud.", "newAppointment", "Buscar atención")}</div>`;
+        }
+
+        function newAppointment() {
+          return `${pageHeader("Encuentra tu atención", "Elige un profesional y organiza la modalidad que mejor se adapte a ti.")}
+    <div class="filter-bar"><input id="doctorSearch" aria-label="Buscar profesional" placeholder="Buscar nombre o especialidad" value="${escapeHtml(searchQuery)}"><select id="specialtyFilter" aria-label="Especialidad"><option value="">Todas las especialidades</option>${[...new Set(state.doctors.map((d) => d.specialty))].map((s) => `<option ${s === specialtyFilter ? "selected" : ""}>${escapeHtml(s)}</option>`).join("")}</select><select id="modeFilter" aria-label="Modalidad"><option value="">Todas las modalidades</option><option value="Virtual" ${modeFilter === "Virtual" ? "selected" : ""}>Consulta virtual</option><option value="domicilio" ${modeFilter === "domicilio" ? "selected" : ""}>A domicilio</option></select></div>
+    <div id="providerList" class="provider-grid">${providerCards()}</div><p class="small-label" style="margin-top:20px">Tarifas de referencia. La confirmación de atención y cobertura corresponde al prestador. <button class="text-btn" data-action="directoryInfo">Sobre el directorio</button></p>`;
+        }
+
+        function patientLab() {
+          if (!state.settings.homeLabEnabled)
+            return emptyState(
+              "lab",
+              "Servicio no habilitado",
+              "El laboratorio domiciliario no admite nuevas solicitudes en este momento.",
+            );
+          const orders = state.labOrders.filter(
+            (o) => o.patientId === state.patient.id,
+          );
+          return `${pageHeader("Laboratorio a domicilio", "Coordina una toma de muestras a partir de tu orden médica.")}<div class="record-list">${orders.map((o) => `<article class="card"><div class="record-head"><div><h2>${escapeHtml(o.tests)}</h2><p>${escapeHtml(o.doctorName)} · ${escapeHtml(o.id)}</p></div>${statusBadge(o.status)}</div><p>${escapeHtml(o.reason)}</p>${o.scheduledDate ? `<p>${icon("calendar")} ${formatDate(o.scheduledDate)} · ${escapeHtml(o.scheduledTime)}</p><p>${icon("pin")} ${escapeHtml(o.address)}</p>` : ""}<div class="actions">${!o.scheduledDate ? `<button class="btn btn-primary" data-action="scheduleLab" data-id="${o.id}">Solicitar toma en casa</button>` : ""}<button class="text-btn" data-action="labDetail" data-id="${o.id}">Ver seguimiento ${icon("arrow")}</button></div></article>`).join("") || emptyState("lab", "Tus órdenes aparecerán aquí", "Después de una consulta, el profesional puede registrar una orden de laboratorio.", "newAppointment", "Solicitar consulta")}</div><p class="small-label">La preparación y posibilidad de toma domiciliaria deben confirmarse con el laboratorio.</p>`;
+        }
+
+        function patientResults() {
+          return `${pageHeader("Resultados y documentos", "Encuentra tus resultados y el estado de revisión.")}<div class="record-list">${state.labResults.map((r) => `<article class="card"><div class="record-head"><div><h2>${escapeHtml(r.testName)}</h2><p>${formatDate(r.date)} · ${escapeHtml(r.orderId)}</p></div>${statusBadge(r.status)}</div>${r.values.map((v) => `<div class="result-row"><strong>${escapeHtml(v.name)}</strong><span>${escapeHtml(v.value)}</span><small>${escapeHtml(v.range)}</small></div>`).join("")}<p><strong>Nota del laboratorio:</strong> ${escapeHtml(r.labComment || r.doctorComment || "Sin observaciones")}</p>${r.review ? `<div class="alert alert-info"><strong>Revisión:</strong> ${escapeHtml(r.review)}</div>` : ""}<div class="actions"><button class="btn btn-secondary btn-sm" data-action="downloadFakeResult" data-id="${r.id}">Descargar registro</button>${currentRole === "doctor" && !r.review ? `<button class="btn btn-primary btn-sm" data-action="reviewResult" data-id="${r.id}">Registrar revisión</button>` : ""}</div></article>`).join("") || emptyState("file", "Aún no hay resultados", "Cuando se registre un resultado, podrás encontrarlo en esta sección.")}</div>`;
+        }
+
+        function patientPrescriptions() {
+          return `${pageHeader("Indicaciones y seguimiento", "Consulta las notas asociadas a tu atención.")}<div class="record-list">${state.prescriptions.map((r) => `<article class="card"><div class="record-head"><div><h2>${escapeHtml(r.medication)}</h2><p>${escapeHtml(r.doctorName)} · ${formatDate(r.date)}</p></div>${statusBadge("Borrador")}</div><p>${escapeHtml(r.instructions)}</p><span class="small-label">Registro local sin firma clínica.</span></article>`).join("") || emptyState("file", "Tus indicaciones en un lugar", "Aquí aparecerán las notas registradas en tu atención.")}</div>`;
+        }
+
+        function caregiver() {
+          const c = state.patient.caregiver;
+          return `${pageHeader("Mi familia", "Organiza el apoyo de una persona de confianza.")}<div class="grid grid-2"><form class="card form-grid" id="caregiverForm"><div class="form-group full"><label for="careName">Nombre del familiar</label><input id="careName" name="name" value="${escapeHtml(c.name)}" required></div><div class="form-group"><label for="careRelation">Relación</label><input id="careRelation" name="relation" value="${escapeHtml(c.relation)}" required></div><div class="form-group"><label for="carePhone">Teléfono</label><input id="carePhone" name="phone" type="tel" value="${escapeHtml(c.phone)}" required></div><div class="form-group full checks">${[
+            ["appointments", "Gestionar citas"],
+            ["results", "Consultar resultados"],
+            ["prescriptions", "Consultar indicaciones"],
+          ]
+            .map(
+              ([k, l]) =>
+                `<label><input type="checkbox" name="${k}" ${c.permissions?.[k] ? "checked" : ""}>${l}</label>`,
+            )
+            .join(
+              "",
+            )}</div><div class="form-group full"><button class="btn btn-primary">Guardar preferencias</button></div></form><article class="card"><span class="service-symbol">${icon("users")}</span><h2>El cuidado se comparte</h2><p>Define las gestiones en las que deseas recibir ayuda. Puedes cambiar tus preferencias cuando lo necesites.</p><p class="small-label">Guardar estas preferencias no envía una invitación ni crea acceso remoto para otra persona. La verificación de identidad y permisos estará disponible al conectar el servicio.</p><button class="btn btn-secondary" data-action="revokeCaregiver">Revocar preferencias de acceso</button></article></div>`;
+        }
+
+        function patientProfile() {
+          const p = state.patient;
+          return `
+      ${pageHeader("Mi expediente", "Información de tu perfil guardada en este dispositivo.")}
+      <form class="card form-grid" id="profileForm">
+        <div class="form-group"><label>Nombre completo</label><input name="name" value="${escapeHtml(p.name)}" required></div>
+        <div class="form-group"><label>Edad</label><input name="age" type="number" min="0" max="120" value="${escapeHtml(p.age)}" required></div>
+        <div class="form-group"><label>Documento</label><input name="document" value="${escapeHtml(p.document)}"></div>
+        <div class="form-group"><label>Teléfono</label><input name="phone" value="${escapeHtml(p.phone)}"></div>
+        <div class="form-group"><label>Correo</label><input name="email" type="email" value="${escapeHtml(p.email)}"></div>
+        <div class="form-group"><label>Dirección</label><input name="address" value="${escapeHtml(p.address)}"></div>
+        <div class="form-group full"><label>Alergias registradas</label><textarea name="allergies">${escapeHtml(p.allergies)}</textarea></div>
+        <div class="form-group full"><label>Condiciones o antecedentes</label><textarea name="conditions">${escapeHtml(p.conditions)}</textarea></div>
+        <div class="form-group full"><label>Medicamentos registrados</label><textarea name="medications">${escapeHtml(p.medications)}</textarea></div>
+        <div class="form-group full"><button class="btn btn-primary" type="submit">Guardar expediente</button></div>
+      </form>
+    `;
+        }
+
+        function emergency() {
+          return `${pageHeader("Emergencias y ambulancias", "Diferencia entre la atención inmediata y los traslados médicos programados.")}
+            <div class="grid grid-2"><article class="card priority-card"><span class="service-symbol">${icon("phone")}</span><h2>Emergencia médica real</h2><p>Si hay peligro inmediato para la vida, llama al SUME 9-1-1 en Panamá. SaludCerca no realiza triaje ni despacha ambulancias.</p><a class="call-911" href="tel:911">Llamar al 9-1-1 ahora</a><p class="small-label">Ante una emergencia, utiliza los canales oficiales de respuesta inmediata.</p></article>
+            <article class="card"><span class="service-symbol">${icon("calendar")}</span><h2>Ambulancia programada</h2><p>Para un traslado clínico no urgente, podría evaluarse un operador privado habilitado, según indicación y condiciones del servicio.</p><button class="btn btn-primary" data-view="ambulanceScheduled">Explorar traslado programado</button><p class="small-label">No es un sistema de despacho operativo.</p></article></div>`;
+        }
+
+        function doctorDashboard() {
+          const active = state.appointments.filter(
+            (a) => !["Cancelada", "Completada"].includes(a.status),
+          );
+          return `${pageHeader("Espacio médico", "Agenda, registros de atención y seguimiento.")}<div class="grid grid-3"><article class="card kpi"><small>Solicitudes activas</small><strong>${active.length}</strong></article><article class="card kpi"><small>Órdenes</small><strong>${state.labOrders.length}</strong></article><article class="card kpi"><small>Por revisar</small><strong>${state.labResults.filter((r) => !r.review).length}</strong></article></div><div class="section-title"><h2>Agenda de solicitudes</h2><button class="text-btn" data-view="results">Revisar resultados ${icon("arrow")}</button></div>${doctorSchedule()}`;
+        }
+
+        function doctorSchedule() {
+          return `<article class="card table-wrap"><table><thead><tr><th>Paciente</th><th>Profesional</th><th>Fecha preferida</th><th>Estado</th><th>Gestión</th></tr></thead><tbody>${state.appointments.map((a) => `<tr><td>${escapeHtml(a.patientName)}</td><td>${escapeHtml(a.doctorName)}</td><td>${formatDate(a.date)}<br>${escapeHtml(a.time)}</td><td>${statusBadge(a.status)}</td><td>${!["Cancelada", "Completada"].includes(a.status) ? `<button class="btn btn-primary btn-sm" data-action="doctorOpenConsult" data-id="${a.id}">Abrir registro</button>` : "—"}</td></tr>`).join("") || '<tr><td colspan="5">Aún no hay solicitudes registradas.</td></tr>'}</tbody></table></article>`;
+        }
+
+        function doctorConsultation() {
+          const a = state.appointments.find(
+            (a) =>
+              a.id === selectedAppointment &&
+              !["Cancelada", "Completada"].includes(a.status),
+          );
+          if (!a)
+            return `${pageHeader("Registro de atención", "Selecciona una solicitud desde la agenda.")} ${emptyState("calendar", "Selecciona una atención", "Cada nota y orden queda vinculada a una solicitud.", "schedule", "Ir a agenda")}`;
+          return `${pageHeader("Registro de atención", `${escapeHtml(a.patientName)} · ${escapeHtml(a.id)}`)}<div class="grid grid-2"><article class="card"><h2>Solicitud del paciente</h2><p>${escapeHtml(a.symptoms)}</p><div class="review-line"><span>Fecha</span><strong>${formatDate(a.date)} · ${a.time}</strong></div><div class="review-line"><span>Profesional</span><strong>${escapeHtml(a.doctorName)}</strong></div><div class="review-line"><span>Modalidad</span><strong>${escapeHtml(a.mode)}</strong></div><p class="small-label">Espacio local de trabajo. Las notas no tienen firma clínica ni se envían a un prestador.</p>${a.mode === "Videollamada" ? `<button class="btn btn-secondary" data-action="joinCall" data-id="${a.id}">Preparar videollamada</button>` : ""}</article><form class="card form-grid" id="doctorPlanForm"><h2 class="full">Nota y seguimiento</h2><div class="form-group full"><label for="clinicalNote">Nota</label><textarea id="clinicalNote" name="note" required></textarea></div><div class="form-group full"><label for="testsRequested">Orden de laboratorio</label><input id="testsRequested" name="tests" placeholder="Opcional: estudio solicitado"></div><div class="form-group full"><label for="clinicalInstructions">Indicaciones</label><textarea id="clinicalInstructions" name="instructions" required></textarea></div><div class="form-group full"><label for="followupType">Seguimiento</label><select id="followupType" name="followup"><option>Revisión de resultados</option><option>Control virtual</option><option>Visita presencial</option></select></div><div class="form-group full"><button class="btn btn-primary">Guardar registro</button></div></form></div>`;
+        }
+
+        function doctorPatients() {
+          return `
+      ${pageHeader("Pacientes", "Expedientes accesibles únicamente por autorización y necesidad de atención.")}
+      <article class="card">
+        <div class="doctor-card">
+          <div class="doctor-photo">AM</div>
+          <div>
+            <h2 style="margin-bottom:4px">${escapeHtml(state.patient.name)}</h2>
+            <p class="doctor-meta">${escapeHtml(state.patient.age)} años · ${escapeHtml(state.patient.phone)} · ${escapeHtml(state.patient.address)}</p>
+            <div class="actions">
+              <button class="btn btn-primary btn-sm" data-action="openPatientRecord">Ver expediente</button>
+              <button class="btn btn-secondary btn-sm" data-view="consultation">Abrir consulta</button>
+            </div>
+          </div>
+        </div>
+      </article>
+    `;
+        }
+
+        function doctorOrders() {
+          const rows = state.labOrders
+            .map(
+              (o) => `
+      <tr>
+        <td>${escapeHtml(o.id)}</td>
+        <td>${escapeHtml(o.patientName)}</td>
+        <td>${escapeHtml(o.tests)}</td>
+        <td>${statusBadge(o.status)}</td>
+        <td>${o.scheduledDate ? `${formatDate(o.scheduledDate)} ${escapeHtml(o.scheduledTime)}` : "No programada"}</td>
+      </tr>
+    `,
+            )
+            .join("");
+
+          return `
+      ${pageHeader("Órdenes de laboratorio", "Seguimiento de órdenes emitidas durante la consulta.")}
+      <article class="card table-wrap">
+        <table>
+          <thead><tr><th>Orden</th><th>Paciente</th><th>Pruebas</th><th>Estado</th><th>Visita</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </article>
+    `;
+        }
+
+        function medicalNotes() {
+          return `
+      ${pageHeader("Notas y recetas", "Borradores para documentar el seguimiento. Requieren validación profesional.")}
+      <div class="grid grid-2">
+        <article class="card">
+          <h2>Última indicación</h2>
+          ${state.prescriptions
+            .map(
+              (rx) => `
+            <p><strong>${escapeHtml(rx.medication)}</strong></p>
+            <p>${escapeHtml(rx.instructions)}</p>
+            <small>${escapeHtml(rx.doctorName)} · ${formatDate(rx.date)}</small>
+          `,
+            )
+            .join("")}
+        </article>
+        <article class="card">
+          <h2>Crear borrador de indicación</h2>
+          <form class="form-grid" id="prescriptionForm">
+            <div class="form-group full"><label>Título</label><input name="medication" placeholder="Tratamiento o indicación" required></div>
+            <div class="form-group full"><label>Instrucciones</label><textarea name="instructions" required></textarea></div>
+            <div class="form-group full"><button class="btn btn-primary">Guardar</button></div>
+          </form>
+        </article>
+      </div>
+    `;
+        }
+
+        function labDashboard() {
+          return `${pageHeader("Espacio de laboratorio", "Organiza visitas y resultados asociados a cada orden.")}<div class="grid grid-3"><article class="card kpi"><small>Órdenes</small><strong>${state.labOrders.length}</strong></article><article class="card kpi"><small>Visitas solicitadas</small><strong>${state.labOrders.filter((o) => o.scheduledDate).length}</strong></article><article class="card kpi"><small>Resultados registrados</small><strong>${state.labResults.length}</strong></article></div><div class="section-title"><h2>Solicitudes</h2><button class="text-btn" data-view="uploadResults">Registrar resultado ${icon("arrow")}</button></div>${labQueue()}`;
+        }
+
+        function labQueue() {
+          return `<div class="record-list">${state.labOrders.map((o) => `<article class="card"><div class="record-head"><div><h2>${escapeHtml(o.tests)}</h2><p>${escapeHtml(o.patientName)} · ${escapeHtml(o.id)}</p></div>${statusBadge(o.status)}</div><p>${o.scheduledDate ? formatDate(o.scheduledDate) + " · " + escapeHtml(o.scheduledTime) : "Esperando fecha preferida del paciente"}</p><p>${escapeHtml(o.address || "")}</p><div class="actions">${o.status === "Solicitud guardada" ? `<button class="btn btn-primary btn-sm" data-action="acceptLabOrder" data-id="${o.id}">Aceptar en el registro local</button>` : ""}${o.status === "Aceptada por laboratorio" ? `<button class="btn btn-secondary btn-sm" data-action="markSample" data-id="${o.id}">Registrar toma</button>` : ""}${o.status === "Muestra tomada" ? '<button class="btn btn-primary btn-sm" data-view="uploadResults">Registrar resultado</button>' : ""}</div></article>`).join("") || emptyState("lab", "Sin órdenes pendientes", "Las órdenes aparecerán después de registrar una atención.")}</div>`;
+        }
+
+        function homeVisits() {
+          const visits = state.labOrders.filter((o) => o.scheduledDate);
+          return `
+      ${pageHeader("Visitas programadas", "Ruta de trabajo de los técnicos de toma de muestras.")}
+      <div class="grid grid-2">
+        ${
+          visits
+            .map(
+              (o) => `
+          <article class="card">
+            <h2>${formatDate(o.scheduledDate)} · ${escapeHtml(o.scheduledTime)}</h2>
+            <p><strong>Paciente:</strong> ${escapeHtml(o.patientName)}</p>
+            <p><strong>Dirección:</strong> ${escapeHtml(o.address || state.patient.address)}</p>
+            <p><strong>Pruebas:</strong> ${escapeHtml(o.tests)}</p>
+            <p>${statusBadge(o.status)}</p>
+            ${o.status === "Aceptada por laboratorio" ? `<button class="btn btn-success btn-sm" data-action="markSample" data-id="${o.id}">Registrar toma de muestra</button>` : ""}
+          </article>
+        `,
+            )
+            .join("") ||
+          `<article class="card empty"><div class="empty-icon">🏠</div>No hay visitas programadas.</article>`
+        }
+      </div>
+    `;
+        }
+
+        function uploadResults() {
+          const ready = state.labOrders.filter(
+            (o) => o.status === "Muestra tomada",
+          );
+          if (!ready.length)
+            return `${pageHeader("Resultados de laboratorio", "Registra resultados vinculados a una toma de muestra.")} ${emptyState("lab", "No hay muestras por procesar", "Primero acepta la visita solicitada y registra la toma en Solicitudes.", "labQueue", "Ver solicitudes")}`;
+          return `${pageHeader("Registrar resultado", "Cada resultado se vincula a una orden y queda pendiente de revisión.")}<form class="card form-grid" id="resultForm"><div class="form-group full"><label for="resultOrder">Orden</label><select id="resultOrder" name="orderId" required>${ready.map((o) => `<option value="${o.id}">${escapeHtml(o.id)} · ${escapeHtml(o.tests)}</option>`).join("")}</select></div><div class="form-group full"><label for="studyName">Nombre del estudio</label><input id="studyName" name="testName" required></div><div class="form-group"><label for="parameterName">Parámetro</label><input id="parameterName" name="parameter" required></div><div class="form-group"><label for="parameterValue">Valor y unidad</label><input id="parameterValue" name="value" required></div><div class="form-group full"><label for="referenceRange">Referencia del laboratorio</label><input id="referenceRange" name="range" required></div><div class="form-group full"><label for="labComment">Observaciones</label><textarea id="labComment" name="comment"></textarea></div><div class="form-group full"><button class="btn btn-primary">Guardar resultado</button></div></form>`;
+        }
+
+        function adminDashboard() {
+          return `${pageHeader("Administración", "Directorio, configuración e indicadores del espacio de trabajo.")}<div class="grid grid-3"><article class="card kpi"><small>Perfiles habilitados</small><strong>${state.doctors.filter((d) => d.available).length}</strong></article><article class="card kpi"><small>Solicitudes médicas</small><strong>${state.appointments.length}</strong></article><article class="card kpi"><small>Farmacia / gestiones integrales</small><strong>${state.pharmacyOrders.length} / ${state.coordinationRequests.length}</strong></article></div><div class="grid grid-2" style="margin-top:20px"><article class="card"><h2>Directorio profesional</h2><p>Administra los perfiles y las tarifas de referencia.</p><button class="btn btn-primary" data-view="manageDoctors">Gestionar profesionales</button></article><article class="card"><h2>Datos del espacio de trabajo</h2><p>Exporta un respaldo de los registros guardados en este dispositivo.</p><button class="btn btn-secondary" data-action="exportData">Exportar respaldo</button><button class="text-btn" data-action="reset">Restablecer datos</button></article></div><p class="small-label">Este espacio no tiene autenticación de servidor. No está habilitado para custodiar expedientes reales.</p>`;
+        }
+
+        function manageDoctors() {
+          return `
+      ${pageHeader("Profesionales", "Administre el directorio local. Verifique credenciales y acuerdos antes de ofrecer atención.")}
+      <div class="grid">
+        ${state.doctors
+          .map(
+            (d) => `
+          <article class="card doctor-card">
+            <div class="doctor-photo">🩺</div>
+            <div>
+              <div class="actions" style="justify-content:space-between">
+                <div><h2 style="margin:0">${escapeHtml(d.name)}</h2><p class="doctor-meta">${escapeHtml(d.specialty)} · ${escapeHtml(d.license)}</p></div>
+                ${statusBadge(d.available ? "Activo" : "Inactivo")}
+              </div>
+              <p>${escapeHtml(d.experience)} · ${escapeHtml(d.mode)} · ${money(d.price)}</p>
+              <button class="btn btn-secondary btn-sm" data-action="toggleDoctor" data-id="${d.id}">${d.available ? "Desactivar" : "Activar"}</button>
+            </div>
+          </article>
+        `,
+          )
+          .join("")}
+
+        <form class="card form-grid" id="doctorForm">
+          <h2 class="full">Agregar profesional</h2>
+          <div class="form-group"><label>Nombre</label><input name="name" required></div>
+          <div class="form-group"><label>Especialidad</label><input name="specialty" required></div>
+          <div class="form-group"><label>Número de idoneidad (por verificar)</label><input name="license" required></div>
+          <div class="form-group"><label>Precio</label><input name="price" type="number" min="0" step="0.01" required></div>
+          <div class="form-group full"><button class="btn btn-primary">Agregar</button></div>
+        </form>
+      </div>
+    `;
+        }
+
+        function manageServices() {
+          const s = state.settings;
+          return `
+      ${pageHeader("Servicios y precios", "Configure los servicios visibles en este dispositivo.")}
+      <form class="card form-grid" id="settingsForm">
+        <div class="form-group full"><label>Nombre de la plataforma</label><input name="appName" value="${escapeHtml(s.appName)}" required></div>
+        <p class="full small-label">Configura los datos comerciales y la oferta de cada establecimiento o profesional desde su perfil.</p>
+        <div class="form-group"><label>Precio base visita domiciliaria</label><input name="homeVisitPrice" type="number" min="0" step="0.01" value="${s.homeVisitPrice}" required></div>
+
+        <div class="form-group full">
+          <label><input type="checkbox" name="homeLabEnabled" ${s.homeLabEnabled ? "checked" : ""} style="width:auto"> Laboratorio a domicilio activo</label>
+          <label><input type="checkbox" name="pharmacyEnabled" ${s.pharmacyEnabled ? "checked" : ""} style="width:auto"> Farmacia y entrega activa</label>
+        </div>
+
+        <div class="form-group full"><button class="btn btn-primary">Guardar configuración</button></div>
+      </form>
+    `;
+        }
+
+        function reports() {
+          const total = state.appointments
+            .filter((a) => a.status !== "Cancelada")
+            .reduce((sum, a) => sum + Number(a.price || 0), 0);
+          return `${pageHeader("Actividad del servicio", "Recuento de solicitudes guardadas.")}<div class="grid grid-3"><article class="card kpi"><small>Solicitudes médicas</small><strong>${state.appointments.length}</strong></article><article class="card kpi"><small>Laboratorios solicitados</small><strong>${state.labOrders.filter((o) => o.scheduledDate).length}</strong></article><article class="card kpi"><small>Valor de referencia</small><strong>${money(total)}</strong></article></div><p class="small-label">El valor de referencia suma solicitudes no canceladas. No representa cobros, ingresos ni pagos recibidos.</p>`;
+        }
+
+        function audit() {
+          return `
+      ${pageHeader("Registro de actividad", "Registro de cambios en este dispositivo. No identifica usuarios autenticados.")}
+      <article class="card table-wrap">
+        <table>
+          <thead><tr><th>Fecha y hora</th><th>Acción</th></tr></thead>
+          <tbody>
+            ${state.audit.map((item) => `<tr><td>${new Date(item.time).toLocaleString("es-PA")}</td><td>${escapeHtml(item.action)}</td></tr>`).join("")}
+          </tbody>
+        </table>
+      </article>
+    `;
+        }
+
+        function icon(name) {
+          const paths = {
+            home: '<path d="m3 10 9-7 9 7v10H3z"/><path d="M9 20v-7h6v7"/>',
+            video:
+              '<rect x="3" y="5" width="12" height="14" rx="3"/><path d="m15 10 6-4v12l-6-4"/>',
+            lab: '<path d="M9 3h6M10 3v7L4 20h16l-6-10V3M7 15h10"/>',
+            pill: '<path d="m9 5-4 4a7 7 0 0 0 10 10l4-4A7 7 0 0 0 9 5Z"/><path d="m8 8 8 8"/>',
+            calendar:
+              '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 11h18m-13 5h2m4 0h2"/>',
+            user: '<circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/>',
+            users:
+              '<circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2m1-14a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 5"/>',
+            file: '<path d="M5 3h9l5 5v13H5zM14 3v6h5M8 13h8m-8 4h6"/>',
+            bell: '<path d="M5 17h14l-2-4V8a5 5 0 0 0-10 0v5zM10 21h4"/>',
+            pin: '<path d="M19 9c0 5-7 12-7 12S5 14 5 9a7 7 0 0 1 14 0Z"/><circle cx="12" cy="9" r="2"/>',
+            arrow: '<path d="M4 12h16m-6-6 6 6-6 6"/>',
+            check: '<path d="m5 12 4 4L19 6"/>',
+            heart:
+              '<path d="M12 20S2 14 2 8a5 5 0 0 1 10-1 5 5 0 0 1 10 1c0 6-10 12-10 12Z"/>',
+            settings:
+              '<circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2M5 19l2-2M17 7l2-2"/>',
+            search: '<circle cx="10" cy="10" r="7"/><path d="m15 15 6 6"/>',
+            phone:
+              '<rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/>',
+            shield:
+              '<path d="m12 2 8 4v6c0 5-8 10-8 10S4 17 4 12V6z"/><path d="m8 11 3 3 5-5"/>',
+            clock: '<circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/>',
+            close: '<path d="m6 6 12 12M6 18 18 6"/>',
+          };
+          return `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.file}</svg>`;
+        }
+
+        function localDate(offset = 0) {
+          const d = new Date();
+          d.setDate(d.getDate() + offset);
+          return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+        }
+
+        function uid(prefix) {
+          return (
+            prefix +
+            "-" +
+            (crypto.randomUUID
+              ? crypto.randomUUID().slice(0, 8)
+              : Date.now().toString(36) +
+                Math.random().toString(36).slice(2, 5))
+          );
+        }
+
+        function initials(name) {
+          return String(name)
+            .split(" ")
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((n) => n[0])
+            .join("")
+            .toUpperCase();
+        }
+
+        function careIllustration() {
+          return `<svg viewBox="0 0 380 310" role="img" aria-label="Atención médica desde el celular"><ellipse cx="209" cy="274" rx="139" ry="19" fill="#c6dccb"/><circle cx="220" cy="140" r="121" fill="#d4e6d4"/><path d="M75 260c-32-37-27-91-16-111 33 15 50 70 16 111" fill="#91b795"/><path d="M77 260c-4-51 23-86 43-90 17 36-10 70-43 90" fill="#b1cca8"/><rect x="135" y="20" width="160" height="259" rx="26" fill="#245b4d"/><rect x="143" y="28" width="144" height="242" rx="20" fill="#f7faf4"/><rect x="186" y="34" width="56" height="9" rx="5" fill="#245b4d"/><rect x="155" y="58" width="120" height="156" rx="12" fill="#e4eee6"/><circle cx="214" cy="112" r="28" fill="#c68e6e"/><path d="M186 112c-6-38 29-47 50-24l5 20-12-4-10-16c-8 17-15 20-33 24" fill="#35504a"/><path d="M167 198v-20c0-33 95-33 95 0v20" fill="#fff"/><path d="m197 150 18 21 17-21 9 48h-51z" fill="#79b8a8"/><path d="M194 153v27c0 16 33 16 33 0v-24" fill="none" stroke="#36695a" stroke-width="4"/><circle cx="229" cy="186" r="6" fill="#285a4c"/><rect x="154" y="229" width="77" height="6" rx="3" fill="#a7c3af"/><rect x="154" y="241" width="53" height="5" rx="3" fill="#d7e3d7"/><circle cx="258" cy="239" r="15" fill="#197d62"/><path d="m251 239 5 5 9-10" stroke="#fff" fill="none" stroke-width="2.5"/><rect x="78" y="71" width="91" height="56" rx="12" fill="#fff"/><rect x="90" y="84" width="29" height="29" rx="9" fill="#edf5e3"/><path d="M104 91v15m-7-7h15" stroke="#548b61" stroke-width="3"/><path d="M126 91h28m-28 10h19" stroke="#b6cbbc" stroke-width="4"/><circle cx="299" cy="193" r="31" fill="#d9ed9e"/><path d="M286 194h8l4-11 5 22 4-11h8" stroke="#4d7050" stroke-width="3" fill="none"/></svg>`;
+        }
+
+        function providerCards() {
+          const docs = state.doctors.filter(
+            (d) =>
+              d.available &&
+              (!specialtyFilter || d.specialty === specialtyFilter) &&
+              (!modeFilter ||
+                d.mode.toLowerCase().includes(modeFilter.toLowerCase())) &&
+              fold(d.name + " " + d.specialty).includes(fold(searchQuery)),
+          );
+          return (
+            docs
+              .map(
+                (d) =>
+                  `<article class="card"><div class="provider-head"><div class="provider-avatar">${initials(d.name.replace(/^Dra?\.?\s*/, ""))}</div><div><h2>${escapeHtml(d.name)}</h2><p>${escapeHtml(d.specialty)}</p></div></div><div class="provider-line">${icon("pin")}Santiago · Veraguas</div><div class="provider-line">${icon(d.mode.includes("domicilio") ? "home" : "video")}${escapeHtml(d.mode)}</div><button class="text-btn" data-action="doctorInfo" data-id="${d.id}">Ver perfil ${icon("arrow")}</button><div class="provider-bottom"><div class="price"><small>Valor de referencia</small><strong>${money(d.price)}</strong></div><button class="btn btn-primary btn-sm" data-action="book" data-id="${d.id}">Elegir</button></div></article>`,
+              )
+              .join("") ||
+            '<div class="card empty" style="grid-column:1/-1">No encontramos coincidencias. Prueba otra especialidad o modalidad.</div>'
+          );
+        }
+
+        function fold(s) {
+          return String(s)
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase();
+        }
+
+        function homeCare() {
+          return `${pageHeader("Atención en casa", "Organiza una visita según tu ubicación y el servicio que necesitas.")}<div class="grid grid-2"><article class="card"><span class="service-symbol">${icon("home")}</span><h2>Visita médica</h2><p>Busca profesionales con modalidad domiciliaria y registra una fecha preferida.</p><button class="btn btn-primary" data-action="homeDoctors">Buscar visita médica</button></article><article class="card"><span class="service-symbol">${icon("lab")}</span><h2>Toma de muestras</h2><p>Programa una solicitud vinculada a tu orden de laboratorio.</p><button class="btn btn-primary" data-view="lab">Ir a laboratorio</button></article></div><div class="card" style="margin-top:20px"><h2>Primero, tu ubicación</h2><p>Las visitas y entregas requieren cobertura confirmada. El profesional determina qué atención puede realizarse en casa.</p><button class="btn btn-secondary" data-action="coverage">Consultar zonas</button></div><div class="section-title"><h2>Otros cuidados en casa</h2></div><div class="grid grid-3"><article class="card"><h3>Enfermería</h3><p>Atención profesional programada.</p><button class="btn btn-secondary" data-view="nursing">Explorar</button></article><article class="card"><h3>Fisioterapia</h3><p>Sesiones según evaluación y cobertura.</p><button class="btn btn-secondary" data-view="physiotherapy">Explorar</button></article><article class="card"><h3>Transporte asistido</h3><p>Traslado no urgente programado.</p><button class="btn btn-secondary" data-view="transport">Explorar</button></article></div>`;
+        }
+
+        function bookDoctor(id, existingId = "") {
+          const doctor = state.doctors.find((d) => d.id === id && d.available);
+          if (!doctor)
+            return toast("Este perfil no admite nuevas solicitudes.");
+          const old = state.appointments.find((a) => a.id === existingId);
+          booking = {
+            doctorId: id,
+            existingId,
+            date: old?.date || localDate(1),
+            time: old?.time || "09:00",
+            mode:
+              old?.mode ||
+              (modeFilter === "domicilio" && doctor.mode.includes("domicilio")
+                ? "Visita médica a domicilio"
+                : "Videollamada"),
+            address: old?.address || state.patient.address,
+            symptoms: old?.symptoms || "",
+            name: state.patient.name,
+            phone: state.patient.phone,
+          };
+          bookingStep(1);
+        }
+
+        function bookingStep(step) {
+          const d = state.doctors.find((d) => d.id === booking.doctorId);
+          if (!d) return;
+          const total =
+            booking.mode === "Videollamada"
+              ? d.price
+              : Number(state.settings.homeVisitPrice);
+          openModal(
+            booking.existingId ? "Reprogramar solicitud" : "Solicitar atención",
+            `<div class="wizard-steps"><span class="on">1 · Fecha y datos</span><span class="${step === 2 ? "on" : ""}">2 · Revisar solicitud</span></div>
+    ${
+      step === 1
+        ? `<div class="provider-head"><div class="provider-avatar">${icon("user")}</div><div><h2>${escapeHtml(d.name)}</h2><p>${escapeHtml(d.specialty)}</p></div></div><form id="bookingForm" class="form-grid"><div class="form-group full"><label for="bookMode">Modalidad</label><select id="bookMode" name="mode"><option ${booking.mode === "Videollamada" ? "selected" : ""}>Videollamada</option>${d.mode.includes("domicilio") ? `<option ${booking.mode !== "Videollamada" ? "selected" : ""}>Visita médica a domicilio</option>` : ""}</select></div><div class="form-group"><label for="bookDate">Fecha preferida</label><input id="bookDate" type="date" name="date" min="${localDate()}" value="${booking.date}" required></div><div class="form-group"><label for="bookTime">Hora preferida</label><select id="bookTime" name="time">${["08:00", "09:00", "10:00", "11:30", "14:00", "15:30", "17:00"].map((t) => `<option ${booking.time === t ? "selected" : ""}>${t}</option>`).join("")}</select></div><div class="form-group"><label for="bookName">Nombre del paciente</label><input id="bookName" name="name" value="${escapeHtml(booking.name)}" required maxlength="100"></div><div class="form-group"><label for="bookPhone">Teléfono de contacto</label><input id="bookPhone" name="phone" type="tel" value="${escapeHtml(booking.phone)}" minlength="7" maxlength="20" required></div><div class="form-group full" id="addressGroup" ${booking.mode === "Videollamada" ? "hidden" : ""}><label for="bookAddress">Dirección para la visita</label><input id="bookAddress" name="address" value="${escapeHtml(booking.address)}" ${booking.mode !== "Videollamada" ? "required" : ""}></div><div class="form-group full"><label for="bookReason">Motivo de consulta</label><textarea id="bookReason" name="symptoms" required maxlength="1200" placeholder="Describe brevemente lo que necesitas">${escapeHtml(booking.symptoms)}</textarea></div><div class="form-group full"><button class="btn btn-primary" type="submit">Continuar ${icon("arrow")}</button></div></form>`
+        : `<div class="review-line"><span>Profesional</span><strong>${escapeHtml(d.name)}</strong></div><div class="review-line"><span>Modalidad</span><strong>${escapeHtml(booking.mode)}</strong></div><div class="review-line"><span>Fecha preferida</span><strong>${formatDate(booking.date)} · ${booking.time}</strong></div><div class="review-line"><span>Paciente</span><strong>${escapeHtml(booking.name)}</strong></div>${booking.mode !== "Videollamada" ? `<div class="review-line"><span>Dirección</span><strong>${escapeHtml(booking.address)}</strong></div>` : ""}<div class="review-line"><span>Tarifa de referencia</span><strong>${money(total)}</strong></div><p class="small-label">No se realizará un cobro. El horario y precio final requieren confirmación del prestador.</p><div class="alert alert-info">La solicitud se guardará en este dispositivo. El envío a un prestador todavía no está habilitado.</div><form id="confirmBooking"><label class="checks"><span><input type="checkbox" required> He revisado los datos de la solicitud.</span></label><div class="actions" style="margin-top:20px"><button type="button" class="btn btn-secondary" data-action="bookingBack">Volver</button><button class="btn btn-primary" type="submit">Guardar solicitud</button></div></form>`
+    }`,
+          );
+        }
+
+        function commitBooking() {
+          const doctor = state.doctors.find(
+            (d) => d.id === booking.doctorId && d.available,
+          );
+          if (!doctor) return toast("El profesional ya no está disponible.");
+          if (!validAppointment(booking)) return;
+          const a = {
+            id: booking.existingId || uid("C"),
+            patientId: state.patient.id,
+            patientName: booking.name,
+            doctorId: doctor.id,
+            doctorName: doctor.name,
+            specialty: doctor.specialty,
+            date: booking.date,
+            time: booking.time,
+            mode: booking.mode,
+            address: booking.address,
+            symptoms: booking.symptoms,
+            price:
+              booking.mode === "Videollamada"
+                ? doctor.price
+                : Number(state.settings.homeVisitPrice),
+            status: "Pendiente de envío",
+            createdAt: new Date().toISOString(),
+          };
+          const i = state.appointments.findIndex((x) => x.id === a.id);
+          if (i >= 0) state.appointments[i] = a;
+          else state.appointments.push(a);
+          state.patient.name = booking.name;
+          state.patient.phone = booking.phone;
+          if (booking.mode !== "Videollamada")
+            state.patient.address = booking.address;
+          notify(
+            `Solicitud ${a.id} guardada para ${formatDate(a.date)}. Pendiente de envío.`,
+          );
+          if (!saveState(`Solicitud ${a.id} guardada`)) return;
+          closeModal();
+          setView("appointments");
+          toast("Solicitud guardada en este dispositivo.");
+        }
+
+        function validAppointment(b) {
+          if (new Date(b.date + "T" + b.time) <= new Date()) {
+            toast("Elige una fecha y hora futuras.");
+            return false;
+          }
+          if (
+            state.appointments.some(
+              (a) =>
+                a.id !== b.existingId &&
+                a.doctorId === b.doctorId &&
+                a.date === b.date &&
+                a.time === b.time &&
+                !["Cancelada", "Completada"].includes(a.status),
+            )
+          ) {
+            toast("Ya tienes una solicitud en ese horario. Elige otro.");
+            return false;
+          }
+          return true;
+        }
+
+        function emptyState(i, t, p, v = "", label = "Continuar") {
+          return `<article class="card empty"><span class="service-symbol">${icon(i)}</span><h2>${t}</h2><p>${p}</p>${v ? `<button class="btn btn-primary" data-view="${v}">${label}</button>` : ""}</article>`;
+        }
+
+        function scheduleLaboratory(id) {
+          const o = state.labOrders.find((o) => o.id === id);
+          if (!o || o.scheduledDate) return;
+          openModal(
+            "Solicitar toma de muestras",
+            `<p><strong>${escapeHtml(o.tests)}</strong></p><form id="labBooking" class="form-grid"><input type="hidden" name="orderId" value="${o.id}"><div class="form-group"><label for="labDate">Fecha preferida</label><input id="labDate" name="date" type="date" min="${localDate(1)}" required></div><div class="form-group"><label for="labTime">Franja preferida</label><select id="labTime" name="time"><option>07:00</option><option>08:30</option><option>10:00</option></select></div><div class="form-group full"><label for="labAddress">Dirección</label><input id="labAddress" name="address" value="${escapeHtml(state.patient.address)}" required></div><div class="form-group full"><label for="labZone">Zona</label><select id="labZone" name="zone"><option>Santiago</option><option>Atalaya</option><option>Otra zona</option></select></div><div class="form-group full"><p class="small-label">Precio y cobertura pendientes de cotización. La solicitud se conserva en este dispositivo; aún no se envía a un laboratorio.</p><button class="btn btn-primary">Guardar solicitud</button></div></form>`,
+          );
+        }
+
+        function pharmacy() {
+          if (!state.settings.pharmacyEnabled)
+            return emptyState(
+              "pill",
+              "Servicio no habilitado",
+              "La coordinación de farmacia no admite nuevas solicitudes.",
+            );
+          return `${pageHeader("Farmacia y entrega", "Organiza una solicitud de medicamentos para consultar su disponibilidad.")}<div class="grid grid-2"><form id="pharmacyForm" class="card form-grid"><h2 class="full">¿Qué necesitas solicitar?</h2><div class="form-group full"><label for="medItems">Medicamentos y cantidades</label><textarea id="medItems" name="items" required maxlength="1200" placeholder="Nombre, presentación y cantidad indicada"></textarea></div><div class="form-group full"><label for="rxAttachment">Receta o documento de referencia</label><input id="rxAttachment" name="attachment" type="file" accept="application/pdf,image/jpeg,image/png"><small>PDF, JPG o PNG · máximo 1 MB. Opcional. Se guarda únicamente en este dispositivo.</small></div><div class="form-group full"><label for="pharmacyMode">Modalidad de farmacia</label><select id="pharmacyMode" name="deliveryMode"><option value="Entrega a domicilio">Entrega a domicilio</option><option value="Retiro en farmacia">Retiro en farmacia participante</option></select></div><div class="form-group full"><label for="deliveryAddress">Dirección de referencia</label><input id="deliveryAddress" name="address" required value="${escapeHtml(state.patient.address)}"></div><div class="form-group full"><label for="deliveryPhone">Teléfono</label><input id="deliveryPhone" name="phone" type="tel" required minlength="7" maxlength="20" value="${escapeHtml(state.patient.phone)}"></div><div class="form-group full"><p class="small-label">La farmacia debe validar receta, precio, disponibilidad y cobertura. Esta solicitud no se envía ni genera un cobro.</p><button class="btn btn-primary" type="submit">Guardar solicitud</button></div></form><div><article class="card"><span class="service-symbol">${icon("pill")}</span><h2>Todo claro antes de comprar</h2><p>Revisa el producto, cantidad y dirección. La dispensación corresponde a una farmacia autorizada.</p><div class="steps"><div><b>1</b><strong>Solicitud</strong>Describe lo que necesitas.</div><div><b>2</b><strong>Validación</strong>Receta y disponibilidad.</div><div><b>3</b><strong>Entrega</strong>Una vez confirmada.</div></div></article></div></div><div class="section-title"><h2>Mis solicitudes de farmacia</h2></div><div class="record-list">${state.pharmacyOrders.map((o) => `<article class="card"><div class="record-head"><h2>${escapeHtml(o.id)}</h2>${statusBadge(o.status)}</div><p>${escapeHtml(o.items)}</p><p class="small-label">${escapeHtml(o.deliveryMode||'Por coordinar')} · ${escapeHtml(o.address)} · ${escapeHtml(o.phone)}</p><div class="actions">${o.attachment ? `<button class="btn btn-secondary btn-sm" data-action="attachment" data-id="${o.id}">Descargar adjunto</button>` : ""}${o.status !== "Cancelada" ? `<button class="text-btn" data-action="cancelPharmacy" data-id="${o.id}">Cancelar solicitud</button>` : ""}</div></article>`).join("") || '<p class="small-label">Todavía no tienes solicitudes guardadas.</p>'}</div>`;
+        }
+
+        function notifications() {
+          return `${pageHeader("Notificaciones", "Novedades de tus gestiones en este dispositivo.", `<button class="btn btn-secondary" data-action="readAll">Marcar como leídas</button>`)}<div class="record-list">${state.notifications.map((n) => `<article class="card"><div class="record-head"><strong>${!n.read ? '<span class="notice-dot"></span>' : ""}${escapeHtml(n.text)}</strong><button class="text-btn" data-action="readNotification" data-id="${n.id}">${n.read ? "Leída" : "Marcar leída"}</button></div><small>${new Date(n.id).toLocaleString("es-PA")}</small></article>`).join("") || emptyState("bell", "Todo al día", "Las actualizaciones de tus solicitudes aparecerán aquí.")}</div>`;
+        }
+
+        function notify(text) {
+          state.notifications.unshift({ id: Date.now(), text, read: false });
+        }
+
+        function download(name, content, type) {
+          const url = URL.createObjectURL(
+            new Blob([content], { type: type + ";charset=utf-8" }),
+          );
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = name;
+          document.body.append(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+
+        function helpDialog() {
+          openModal("Ayuda y privacidad", `
+            <h3>SaludCerca · Conecta, coordina y acompaña</h3>
+            <p>Organiza citas, farmacias, laboratorio, rehabilitación, prevención, enfermería y transporte asistido en un mismo espacio.</p>
+            <h3>Estado de las solicitudes</h3>
+            <p>Las gestiones marcadas como <strong>Pendiente de envío</strong> están guardadas en este navegador. Una cita solo puede considerarse confirmada cuando un proveedor autorizado acepte la solicitud.</p>
+            <h3>Protección de tus datos</h3>
+            <p>Esta edición mantiene los registros en el dispositivo; evita introducir datos clínicos o recetas reales hasta disponer de cuentas verificadas, infraestructura segura y conexiones autorizadas con proveedores.</p>
+            <h3>Control de tu información</h3>
+            <p>Descarga una copia de tus registros o restablece el espacio cuando lo necesites.</p>
+            <div class="actions">
+              <button class="btn btn-secondary" data-action="exportData">Exportar mis datos</button>
+              <button class="btn btn-secondary" data-action="reset">Restablecer</button>
+            </div>`);
+        }
+
+        function submitPharmacy(e) {
+          e.preventDefault();
+          const form = e.target;
+          const f = new FormData(form);
+          const file = f.get("attachment");
+          if (file?.size > 1024 * 1024)
+            return toast("El adjunto debe pesar menos de 1 MB.");
+          if (
+            file?.size &&
+            !["application/pdf", "image/jpeg", "image/png"].includes(file.type)
+          )
+            return toast("Adjunta un PDF, JPG o PNG.");
+          const button = form.querySelector("button[type=submit]");
+          button.disabled = true;
+          const commit = (attachment) => {
+            state.pharmacyOrders.unshift({
+              id: uid("FAR"),
+              items: f.get("items"),
+              address: f.get("address"),
+              phone: f.get("phone"),
+              deliveryMode: f.get("deliveryMode") || "Por coordinar",
+              attachment,
+              status: "Pendiente de envío",
+              createdAt: new Date().toISOString(),
+            });
+            notify("Solicitud de farmacia guardada. Pendiente de envío.");
+            if (saveState("Solicitud de farmacia guardada")) {
+              render();
+              toast("Solicitud guardada en este dispositivo.");
+            } else {
+              state.pharmacyOrders.shift();
+              button.disabled = false;
+            }
+          };
+          if (file?.size) {
+            const reader = new FileReader();
+            reader.onload = () =>
+              commit({ name: file.name, type: file.type, data: reader.result });
+            reader.onerror = () => {
+              button.disabled = false;
+              toast("No se pudo leer el archivo.");
+            };
+            reader.readAsDataURL(file);
+          } else commit(null);
+        }
+
+        function actionDetails(id) {
+          const a = state.appointments.find((a) => a.id === id);
+          if (!a) return;
+          openModal(
+            "Detalle de solicitud",
+            `<p>${statusBadge(a.status)}</p><div class="review-line"><span>Profesional</span><strong>${escapeHtml(a.doctorName)}</strong></div><div class="review-line"><span>Fecha preferida</span><strong>${formatDate(a.date)} · ${escapeHtml(a.time)}</strong></div><div class="review-line"><span>Modalidad</span><strong>${escapeHtml(a.mode)}</strong></div><p>${escapeHtml(a.symptoms)}</p><p class="small-label">Pendiente de envío y confirmación por parte del proveedor.</p><button class="btn btn-secondary" data-action="calendar" data-id="${a.id}">Descargar recordatorio de calendario</button>`,
+          );
+        }
+
+        async function testCamera() {
+          const label = $("#cameraStatus");
+          if (!label) return;
+          if (cameraStream) {
+            cameraStream.getTracks().forEach((t) => t.stop());
+            cameraStream = null;
+            $("#cameraPreview").hidden = true;
+            label.textContent = "Cámara apagada.";
+            return;
+          }
+          if (!navigator.mediaDevices?.getUserMedia) {
+            label.textContent =
+              "Para usar la cámara, permite el acceso en tu navegador.";
+            return;
+          }
+          label.textContent = "Esperando permiso para usar la cámara…";
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+              video: true,
+              audio: false,
+            });
+            if (!$("#cameraPreview")) {
+              stream.getTracks().forEach((t) => t.stop());
+              return;
+            }
+            cameraStream = stream;
+            $("#cameraPreview").srcObject = stream;
+            $("#cameraPreview").hidden = false;
+            label.textContent =
+              "Vista de cámara activa. Pulsa de nuevo para apagar.";
+          } catch {
+            if (label.isConnected)
+              label.textContent =
+                "No se pudo acceder a la cámara. Revisa el permiso del navegador.";
+          }
+        }
+
+
+        // Integración de servicios privados: catálogo, solicitudes y gestión.
+        // Los catálogos agrupan servicios, no garantizan disponibilidad.
+        function catalogCards() {
+          const filtered = partnerDirectory.filter((provider) =>
+            fold(`${provider.name} ${provider.desc}`).includes(fold(catalogSearch)),
+          );
+          if (!filtered.length) {
+            return `<article class="card empty" style="grid-column:1/-1">
+              <h3>No encontramos coincidencias</h3>
+              <p>Prueba con una especialidad, farmacia, laboratorio o servicio de movilidad.</p>
+              <button class="btn btn-secondary" data-action="clearCatalog">Ver todos los servicios</button>
+            </article>`;
+          }
+          return filtered.map((provider) => `
+            <article class="card catalog-card">
+              <span class="service-symbol">${icon(provider.icon)}</span>
+              <span class="service-status">Salud y bienestar</span>
+              <h3>${escapeHtml(provider.name)}</h3>
+              <p>${escapeHtml(provider.desc)}</p>
+              <button class="btn btn-secondary btn-sm" data-view="${provider.view}">
+                Explorar ${icon("arrow")}
+              </button>
+            </article>
+          `).join("");
+        }
+
+        function network() {
+          return `${pageHeader(
+            "Explora servicios de salud",
+            "Encuentra opciones de atención privada y organiza tus solicitudes desde un solo lugar.",
+          )}
+            <section class="network-lead">
+              <div><strong>Todo lo que necesitas para cuidar tu salud</strong>
+              <p>Atención médica, laboratorios, farmacias, fisioterapia, recuperación,
+              prevención y traslados, en una experiencia conectada.</p></div>
+              <button class="btn" data-view="careJourney">Mi atención ${icon("arrow")}</button>
+            </section>
+            <div class="filter-bar">
+              <input id="catalogSearch" aria-label="Buscar un servicio" placeholder="Buscar médicos, farmacias, fisioterapia, transporte..." value="${escapeHtml(catalogSearch)}">
+            </div>
+            <div id="catalogCards" class="catalog-grid">${catalogCards()}</div>`;
+        }
+
+        function serviceLanding(key) {
+          const service = integralServices[key];
+          if (!service) return network();
+          const urgent = key === "ambulanceScheduled";
+          return `${pageHeader(service.title, service.summary,
+            `<button class="btn btn-secondary" data-view="network">${icon("arrow")} Todos los servicios</button>`)}
+            <div class="grid grid-2">
+              <article class="card">
+                <div class="service-detail-hero">
+                  <span class="service-symbol">${icon(service.icon)}</span>
+                  <div><span class="eyebrow">Servicios de salud privada</span>
+                    <h2>${escapeHtml(service.title)}</h2>
+                    <p>${escapeHtml(service.summary)}</p></div>
+                </div>
+                <div class="service-highlight"><strong>Atención adaptada a tus necesidades</strong>
+                  <p>${escapeHtml(service.detail)}</p></div>
+                <div class="service-detail-actions">
+                  <button class="btn btn-primary" data-action="requestService" data-id="${key}">Solicitar atención ${icon("arrow")}</button>
+                  <button class="btn btn-secondary" data-view="myServices">Mis solicitudes</button>
+                </div>
+              </article>
+              <article class="card"><span class="eyebrow">Una experiencia sencilla</span>
+                <h2 style="margin:12px 0">Organiza tu próximo servicio</h2>
+                <p>Elige el tipo de atención y registra la fecha y modalidad que mejor se ajusten a tu situación.</p>
+                <div class="service-process">
+                  <div><b>01</b><span>Selecciona el servicio que necesitas</span></div>
+                  <div><b>02</b><span>Indica lugar y horario de preferencia</span></div>
+                  <div><b>03</b><span>Revisa el estado desde tu espacio personal</span></div>
+                </div>
+              </article>
+            </div>
+            ${urgent ? `<article class="card priority-card" style="margin-top:18px">
+              <h2>¿Necesitas ayuda de emergencia?</h2>
+              <p>Ante una emergencia médica, comunícate inmediatamente con el 9-1-1.</p>
+              <a class="call-911" href="tel:911">${icon("phone")} Llamar al 9-1-1</a>
+            </article>` : ""}`;
+        }
+
+        function requestServiceDialog(key) {
+          const service = integralServices[key];
+          if (!service) return;
+          selectedService = key;
+          openModal(`Solicitar ${service.title.toLowerCase()}`, `
+            <form id="coordinationForm" class="form-grid">
+              <input type="hidden" name="service" value="${escapeHtml(key)}">
+              <div class="form-group"><label for="srDate">Fecha preferida</label>
+                <input type="date" id="srDate" name="date" min="${localDate(1)}" value="${localDate(2)}" required></div>
+              <div class="form-group"><label for="srTime">Hora preferida</label>
+                <input type="time" id="srTime" name="time" value="09:00" required></div>
+              <div class="form-group"><label for="srMode">Modalidad</label>
+                <select id="srMode" name="mode" required>
+                  <option value="En establecimiento">En establecimiento</option>
+                  <option value="A domicilio">A domicilio</option>
+                  <option value="Por coordinar">Por coordinar</option>
+                </select></div>
+              <div class="form-group"><label for="srZone">Zona de atención</label>
+                <input id="srZone" name="zone" value="${escapeHtml(state.zone || "Santiago, Veraguas")}" maxlength="110" required></div>
+              <div class="form-group full"><label for="srContact">Teléfono de contacto (opcional)</label>
+                <input id="srContact" name="phone" type="tel" maxlength="24" placeholder="Número de contacto"></div>
+              <div class="form-group full"><label for="srNotes">Preferencias de horario o traslado (opcional)</label>
+                <textarea id="srNotes" name="notes" maxlength="300" placeholder="Por ejemplo: prefiero la mañana o requiero acceso para silla de ruedas."></textarea></div>
+              <div class="form-group full">
+                <button type="submit" class="btn btn-primary">Guardar solicitud ${icon("arrow")}</button>
+                <small class="small-label">Podrás consultar y modificar el estado de tu solicitud desde Mi atención.</small>
+              </div>
+            </form>`);
+        }
+
+        function submitCoordination(event) {
+          event.preventDefault();
+          const form = Object.fromEntries(new FormData(event.target));
+          if (!integralServices[form.service]) return toast("Servicio no válido.");
+          if (!form.date || form.date <= localDate()) return toast("Selecciona una fecha futura.");
+          if (!form.zone?.trim()) return toast("Indica una zona de atención.");
+          const request = {
+            id: uid("SC"),
+            service: form.service,
+            date: form.date,
+            time: form.time,
+            mode: form.mode,
+            zone: form.zone.trim().slice(0, 110),
+            phone: (form.phone || "").trim().slice(0, 24),
+            notes: (form.notes || "").trim().slice(0, 300),
+            status: "Pendiente de envío",
+            createdAt: new Date().toISOString(),
+          };
+          state.coordinationRequests.unshift(request);
+          notify(`Tu solicitud ${request.id} se guardó correctamente.`);
+          if (!saveState(`Solicitud ${request.id} guardada`)) {
+            state.coordinationRequests.shift();
+            return;
+          }
+          closeModal();
+          setView("myServices");
+          toast("Solicitud guardada correctamente.");
+        }
+
+        function myServices() {
+          const requests = state.coordinationRequests;
+          const active = requests.filter((request) => !request.status.includes("Cancelada"));
+          return `${pageHeader("Mis servicios", "Consulta tus gestiones de salud y sus próximas fechas.",
+            `<button class="btn btn-primary" data-view="network">Explorar servicios</button>`)}
+            <div class="overview-strip"><div><strong>${active.length} ${active.length === 1 ? "solicitud activa" : "solicitudes activas"}</strong>
+              <p>Tus preferencias, horarios y solicitudes organizados en un solo lugar.</p></div>
+              <button class="btn btn-secondary" data-view="careJourney">Continuidad de atención</button>
+            </div>
+            <div class="record-list">${requests.map((request) => `
+              <article class="card"><div class="record-head"><div>
+                <h2>${escapeHtml(integralServices[request.service]?.title || "Servicio de salud")}</h2>
+                <p>${escapeHtml(request.id)} · ${formatDate(request.date)} · ${escapeHtml(request.time)}</p>
+              </div>${statusBadge(request.status)}</div>
+              <p>${icon("pin")} ${escapeHtml(request.zone)} · ${escapeHtml(request.mode)}</p>
+              <div class="actions">
+                <button class="btn btn-secondary btn-sm" data-action="requestDetail" data-id="${escapeHtml(request.id)}">Ver detalles</button>
+                ${request.status.includes("Cancelada") ? "" : `<button class="text-btn" data-action="cancelRequest" data-id="${escapeHtml(request.id)}">Cancelar solicitud</button>`}
+              </div></article>
+            `).join("") || emptyState("file", "Aún no tienes solicitudes", "Explora los servicios y organiza tu próxima atención.", "network", "Explorar servicios")}</div>`;
+        }
+
+        function careJourney() {
+          const counts = [
+            ["Citas médicas", state.appointments.length, "appointments"],
+            ["Laboratorio", state.labOrders.length, "lab"],
+            ["Farmacia", state.pharmacyOrders.length, "pharmacy"],
+            ["Otros servicios", state.coordinationRequests.length, "myServices"],
+          ];
+          return `${pageHeader("Mi atención", "Tu salud conectada, desde las consultas hasta el seguimiento.")}
+            <article class="card"><span class="eyebrow">SaludCerca te acompaña</span>
+              <h2>La atención continúa después de la consulta</h2>
+              <p>Consulta tus gestiones y organiza los servicios que necesites a lo largo de tu proceso de atención.</p>
+              <div class="path-grid">
+                <div class="path-step"><b>01</b><strong>Consulta médica</strong><small>Atención y evaluación profesional</small></div>
+                <div class="path-step"><b>02</b><strong>Laboratorio</strong><small>Exámenes y resultados</small></div>
+                <div class="path-step"><b>03</b><strong>Farmacia</strong><small>Tratamientos y medicamentos</small></div>
+                <div class="path-step"><b>04</b><strong>Recuperación</strong><small>Terapias, cuidados y movilidad</small></div>
+                <div class="path-step"><b>05</b><strong>Seguimiento</strong><small>Tu información organizada</small></div>
+              </div>
+            </article>
+            <div class="section-title"><h2>Resumen de mis gestiones</h2></div>
+            <div class="grid grid-4">${counts.map(([name, count, view]) => `
+              <article class="card kpi"><small>${name}</small><strong>${count}</strong>
+                <button class="text-btn" data-view="${view}">Consultar ${icon("arrow")}</button>
+              </article>`).join("")}</div>
+            <article class="overview-strip"><div><strong>Cuidar de quienes más quieres</strong>
+              <p>Organiza el apoyo familiar para las citas y gestiones de una persona a tu cargo.</p></div>
+              <button class="btn btn-secondary" data-view="caregiver">Mi cuidador</button></article>`;
+        }
+
+        function requestsAdmin() {
+          const requests = state.coordinationRequests;
+          return `${pageHeader("Gestión de solicitudes", "Consulta y organiza las solicitudes de servicios integrales.")}
+            <div class="grid grid-3">
+              <article class="card kpi"><small>Solicitudes registradas</small><strong>${requests.length}</strong></article>
+              <article class="card kpi"><small>Por enviar</small><strong>${requests.filter((item) => item.status === "Pendiente de envío").length}</strong></article>
+              <article class="card kpi"><small>Áreas de atención</small><strong>${partnerDirectory.length}</strong></article>
+            </div>
+            <article class="card table-wrap" style="margin-top:18px"><table>
+              <thead><tr><th>Referencia</th><th>Servicio</th><th>Fecha / zona</th><th>Estado</th><th></th></tr></thead>
+              <tbody>${requests.map((item) => `<tr>
+                <td>${escapeHtml(item.id)}</td>
+                <td>${escapeHtml(integralServices[item.service]?.title || "Servicio")}</td>
+                <td>${formatDate(item.date)}<br>${escapeHtml(item.zone)}</td>
+                <td>${statusBadge(item.status)}</td>
+                <td><button class="btn btn-secondary btn-sm" data-action="requestDetail" data-id="${escapeHtml(item.id)}">Detalles</button></td>
+              </tr>`).join("") || `<tr><td colspan="5">Aún no hay solicitudes registradas.</td></tr>`}</tbody>
+            </table></article>`;
+        }
+
+        function requestDetails(id) {
+          const request = state.coordinationRequests.find((item) => item.id === id);
+          if (!request) return;
+          openModal("Detalle de la solicitud", `
+            <p>${statusBadge(request.status)}</p>
+            <div class="review-line"><span>Servicio</span><strong>${escapeHtml(integralServices[request.service]?.title || request.service)}</strong></div>
+            <div class="review-line"><span>Fecha preferida</span><strong>${formatDate(request.date)} · ${escapeHtml(request.time)}</strong></div>
+            <div class="review-line"><span>Modalidad</span><strong>${escapeHtml(request.mode)}</strong></div>
+            <div class="review-line"><span>Zona</span><strong>${escapeHtml(request.zone)}</strong></div>
+            <div class="review-line"><span>Observaciones</span><strong>${escapeHtml(request.notes || "Sin observaciones")}</strong></div>
+            ${request.status === "Pendiente de envío" ? '<p class="small-label">La solicitud debe enviarse y ser aceptada por un proveedor para convertirse en una reserva confirmada.</p>' : ""}`);
+        }
+
+        const views = {
+          patient: {
+            dashboard: dashboardPatient,
+            appointments: patientAppointments,
+            newAppointment,
+            lab: patientLab,
+            results: patientResults,
+            prescriptions: patientPrescriptions,
+            caregiver,
+            profile: patientProfile,
+            emergency,
+          },
+          doctor: {
+            dashboard: doctorDashboard,
+            schedule: doctorSchedule,
+            consultation: doctorConsultation,
+            patients: doctorPatients,
+            orders: doctorOrders,
+            medicalNotes,
+          },
+          lab: {
+            dashboard: labDashboard,
+            labQueue,
+            homeVisits,
+            uploadResults,
+          },
+          admin: {
+            dashboard: adminDashboard,
+            manageDoctors,
+            manageServices,
+            reports,
+            audit,
+          },
+        };
+
+        function bindViewEvents() {
+          // Delegated navigation and actions are registered once in initGlobalEvents.
+          $("#catalogSearch")?.addEventListener("input", (e) => {
+            catalogSearch=e.target.value;
+            $("#catalogCards").innerHTML=catalogCards();
+          });
+          $("#doctorSearch")?.addEventListener("input", (e) => {
+            searchQuery = e.target.value;
+            $("#providerList").innerHTML = providerCards();
+          });
+          $("#specialtyFilter")?.addEventListener("change", (e) => {
+            specialtyFilter = e.target.value;
+            $("#providerList").innerHTML = providerCards();
+          });
+          $("#modeFilter")?.addEventListener("change", (e) => {
+            modeFilter = e.target.value;
+            $("#providerList").innerHTML = providerCards();
+          });
+          $("#caregiverForm")?.addEventListener("submit", submitCaregiver);
+          $("#profileForm")?.addEventListener("submit", submitProfile);
+          $("#doctorPlanForm")?.addEventListener("submit", submitDoctorPlan);
+          $("#prescriptionForm")?.addEventListener(
+            "submit",
+            submitPrescription,
+          );
+          $("#resultForm")?.addEventListener("submit", submitResult);
+          $("#doctorForm")?.addEventListener("submit", submitDoctor);
+          $("#settingsForm")?.addEventListener("submit", submitSettings);
+          $("#pharmacyForm")?.addEventListener("submit", submitPharmacy);
+        }
+
+        function submitCaregiver(e) {
+          e.preventDefault();
+          const f = new FormData(e.target);
+          state.patient.caregiver = {
+            name: f.get("name"),
+            relation: f.get("relation"),
+            phone: f.get("phone"),
+            permissions: {
+              appointments: f.has("appointments"),
+              results: f.has("results"),
+              prescriptions: f.has("prescriptions"),
+            },
+          };
+          if (saveState("Preferencias familiares actualizadas"))
+            toast("Preferencias guardadas.");
+        }
+
+        function submitProfile(event) {
+          event.preventDefault();
+          const data = Object.fromEntries(new FormData(event.target));
+          state.patient = {
+            ...state.patient,
+            ...data,
+            age: Number(data.age),
+            caregiver: state.patient.caregiver,
+          };
+          saveState("Expediente del paciente actualizado");
+          render();
+          toast("Expediente actualizado.");
+        }
+
+        function submitDoctorPlan(e) {
+          e.preventDefault();
+          const a = state.appointments.find(
+            (a) => a.id === selectedAppointment,
+          );
+          if (!a || ["Cancelada", "Completada"].includes(a.status))
+            return toast("Selecciona una solicitud activa.");
+          const f = Object.fromEntries(new FormData(e.target));
+          state.notes.unshift({
+            id: uid("N"),
+            appointmentId: a.id,
+            doctorName: a.doctorName,
+            note: f.note,
+            createdAt: new Date().toISOString(),
+          });
+          if (f.tests.trim())
+            state.labOrders.unshift({
+              id: uid("LAB"),
+              appointmentId: a.id,
+              patientId: a.patientId,
+              patientName: a.patientName,
+              doctorName: a.doctorName,
+              tests: f.tests,
+              reason: f.note,
+              status: "Orden creada",
+              homeService: true,
+              scheduledDate: "",
+              scheduledTime: "",
+              laboratory: "",
+              price: 0,
+            });
+          state.prescriptions.unshift({
+            id: uid("IND"),
+            appointmentId: a.id,
+            doctorName: a.doctorName,
+            date: localDate(),
+            medication: "Plan de seguimiento",
+            instructions: f.instructions + " Seguimiento: " + f.followup,
+            status: "Borrador",
+          });
+          a.status = "Completada";
+          notify("Se guardó un registro de atención y seguimiento.");
+          if (saveState(`Registro local de atención ${a.id}`)) {
+            setView("dashboard");
+            toast("Registro guardado.");
+          }
+        }
+
+        function submitPrescription(event) {
+          event.preventDefault();
+          const data = Object.fromEntries(new FormData(event.target));
+          state.prescriptions.unshift({
+            id: `RX-${Date.now().toString().slice(-6)}`,
+            doctorName: "Equipo médico",
+            date: new Date().toISOString().slice(0, 10),
+            medication: data.medication,
+            instructions: data.instructions,
+            status: "Borrador",
+          });
+          saveState("Borrador de indicación guardado");
+          render();
+          toast("Indicación guardada.");
+        }
+
+        function submitResult(e) {
+          e.preventDefault();
+          const f = Object.fromEntries(new FormData(e.target));
+          const o = state.labOrders.find(
+            (o) => o.id === f.orderId && o.status === "Muestra tomada",
+          );
+          if (!o)
+            return toast(
+              "La orden no tiene una muestra pendiente de resultado.",
+            );
+          state.labResults.unshift({
+            id: uid("RES"),
+            orderId: o.id,
+            testName: f.testName,
+            date: localDate(),
+            status: "Pendiente de revisión médica",
+            doctorComment: "",
+            labComment: f.comment,
+            values: [
+              {
+                name: f.parameter,
+                value: f.value,
+                range: f.range,
+                flag: "review",
+              },
+            ],
+          });
+          o.status = "Resultado cargado";
+          notify("Hay un nuevo resultado pendiente de revisión.");
+          if (saveState(`Resultado registrado para ${o.id}`)) {
+            setView("dashboard");
+            toast("Resultado guardado.");
+          }
+        }
+
+        function submitDoctor(event) {
+          event.preventDefault();
+          const data = Object.fromEntries(new FormData(event.target));
+          state.doctors.push({
+            id: `D-${Date.now().toString().slice(-5)}`,
+            name: data.name,
+            specialty: data.specialty,
+            license: data.license,
+            experience: "Perfil nuevo",
+            mode: "Virtual",
+            price: Number(data.price),
+
+            available: true,
+          });
+          saveState(`Profesional ${data.name} agregado`);
+          render();
+          toast("Profesional agregado.");
+        }
+
+        function submitSettings(event) {
+          event.preventDefault();
+          const fd = new FormData(event.target);
+          state.settings = {
+            ...state.settings,
+            appName: fd.get("appName"),
+            appointmentPrice: Number(fd.get("appointmentPrice")),
+            homeVisitPrice: Number(fd.get("homeVisitPrice")),
+            homeLabEnabled: fd.get("homeLabEnabled") === "on",
+            pharmacyEnabled: fd.get("pharmacyEnabled") === "on",
+            transportEnabled: fd.get("transportEnabled") === "on",
+          };
+          saveState("Configuración administrativa actualizada");
+          render();
+          toast("Configuración actualizada.");
+        }
+
+        function handleAction(action, id) {
+          const a = state.appointments.find((a) => a.id === id);
+          const o = state.labOrders.find((o) => o.id === id);
+          switch (action) {
+            case "clearCatalog":
+              catalogSearch = "";
+              render();
+              break;
+            case "requestService":
+              requestServiceDialog(id);
+              break;
+            case "requestDetail":
+              requestDetails(id);
+              break;
+            case "cancelRequest": {
+              const x=state.coordinationRequests.find(x=>x.id===id);
+              if(x)openModal('Cancelar solicitud', `<p>¿Deseas cancelar la solicitud ${escapeHtml(x.id)}?</p><button class="btn btn-primary" data-action="confirmRequestCancel" data-id="${escapeHtml(x.id)}">Cancelar gestión</button>`);
+              break;
+            }
+            case "confirmRequestCancel": {
+              const x=state.coordinationRequests.find(x=>x.id===id);
+              if(x){x.status='Cancelada';saveState('Cancelación local '+x.id);closeModal();render();toast('Solicitud cancelada.');}
+              break;
+            }
+            case "book":
+              bookDoctor(id);
+              break;
+            case "bookingBack":
+              bookingStep(1);
+              break;
+            case "doctorInfo": {
+              const d = state.doctors.find((d) => d.id === id);
+              if (d)
+                openModal(
+                  "Perfil profesional",
+                  `<div class="provider-head"><div class="provider-avatar">${icon("user")}</div><div><h2>${escapeHtml(d.name)}</h2><p>${escapeHtml(d.specialty)}</p></div></div><p>Modalidad: ${escapeHtml(d.mode)}</p><p>Tarifa publicada: ${money(d.price)}</p><p class="small-label">Datos del profesional sujetos a validación por la administración.</p><button class="btn btn-primary" data-action="book" data-id="${d.id}">Solicitar información</button>`,
+                );
+              break;
+            }
+            case "directoryInfo":
+              openModal(
+                "Sobre el directorio",
+                "<p>La búsqueda de atención permite revisar especialidades y modalidades. Cada proveedor debe contar con información de contacto, idoneidad y condiciones de servicio validadas antes de publicar su disponibilidad.</p>",
+              );
+              break;
+            case "homeDoctors":
+              modeFilter = "domicilio";
+              specialtyFilter = "";
+              searchQuery = "";
+              setView("newAppointment");
+              break;
+            case "coverage":
+              openModal(
+                "Zonas de atención",
+                `<p>El proyecto contempla iniciar en Santiago y ampliar según los proveedores participantes. Consulta las zonas disponibles para tu solicitud.</p><form id="zoneForm" class="form-grid"><div class="form-group full"><label for="zone">Mi zona de interés</label><select id="zone" name="zone">${["Santiago, Veraguas", "Atalaya", "La Peña", "La Mata", "Otra zona"].map((z) => `<option ${state.zone === z ? "selected" : ""}>${z}</option>`).join("")}</select></div><button class="btn btn-primary">Guardar zona</button></form>`,
+              );
+              break;
+            case "help":
+              helpDialog();
+              break;
+            case "appInfo":
+              openModal(
+                "SaludCerca en tu celular",
+                `<span class="service-symbol">${icon("phone")}</span><h3>Web y app, una misma experiencia</h3><p>Accede a tus gestiones desde el navegador de tu teléfono, computadora o tableta.</p><p>En tu celular, puedes añadir SaludCerca a la pantalla de inicio desde el menú del navegador.</p>`,
+              );
+              break;
+            case "workspace":
+              openModal(
+                "Espacios de trabajo",
+                `<p>Selecciona el espacio que quieres recorrer.</p><div class="grid grid-2">${Object.entries(
+                  roleData,
+                )
+                  .map(
+                    ([r, v]) =>
+                      `<button class="btn btn-secondary" data-action="switchRole" data-id="${r}">${icon(r === "patient" ? "user" : r === "lab" ? "lab" : "file")}${v.subtitle}</button>`,
+                  )
+                  .join(
+                    "",
+                  )}</div><p class="small-label">Selecciona el área de trabajo que deseas consultar.</p>`,
+              );
+              break;
+            case "switchRole":
+              setRole(id);
+              break;
+            case "notifications":
+              currentView = "notifications";
+              saveState();
+              render();
+              break;
+            case "readAll":
+              state.notifications.forEach((n) => (n.read = true));
+              saveState();
+              render();
+              break;
+            case "readNotification": {
+              const n = state.notifications.find(
+                (n) => String(n.id) === String(id),
+              );
+              if (n) n.read = true;
+              saveState();
+              render();
+              break;
+            }
+            case "filterAppointments":
+              appointmentFilter = id;
+              render();
+              break;
+            case "appointmentDetail":
+              actionDetails(id);
+              break;
+            case "reschedule":
+              if (a) bookDoctor(a.doctorId, a.id);
+              break;
+            case "cancelAppointment":
+              if (a && !["Cancelada", "Completada"].includes(a.status)) {
+                openModal(
+                  "Cancelar solicitud",
+                  `<p>¿Deseas cancelar la solicitud con ${escapeHtml(a.doctorName)} del ${formatDate(a.date)}?</p><button class="btn btn-primary" data-action="confirmCancel" data-id="${a.id}">Sí, cancelar solicitud</button>`,
+                );
+              }
+              break;
+            case "confirmCancel":
+              if (a) {
+                a.status = "Cancelada";
+                notify("Solicitud cancelada en este dispositivo.");
+                saveState(`Cancelación ${a.id}`);
+                closeModal();
+                render();
+                toast("Solicitud cancelada.");
+              }
+              break;
+            case "calendar":
+              if (a) {
+                const clean = (s) =>
+                  String(s)
+                    .replace(/\\/g, "\\\\")
+                    .replace(/\n/g, "\\n")
+                    .replace(/[,;]/g, " ");
+                const dt =
+                  a.date.replaceAll("-", "") +
+                  "T" +
+                  a.time.replace(":", "") +
+                  "00";
+                download(
+                  a.id + ".ics",
+                  `BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SaludCerca//Solicitudes//ES\r\nBEGIN:VEVENT\r\nUID:${a.id}@saludcerca.local\r\nDTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").split(".")[0]}Z\r\nDTSTART;TZID=America/Panama:${dt}\r\nDURATION:PT30M\r\nSUMMARY:${clean("Solicitud pendiente - " + a.doctorName)}\r\nDESCRIPTION:Recordatorio personal. Solicitud no enviada ni confirmada por el prestador.\r\nSTATUS:TENTATIVE\r\nEND:VEVENT\r\nEND:VCALENDAR`,
+                  "text/calendar",
+                );
+              }
+              break;
+            case "scheduleLab":
+              scheduleLaboratory(id);
+              break;
+            case "labDetail":
+              if (o)
+                openModal(
+                  "Seguimiento de laboratorio",
+                  `<h3>${escapeHtml(o.tests)}</h3><p>${statusBadge(o.status)}</p><p>Orden: ${escapeHtml(o.id)}</p><p>${o.scheduledDate ? formatDate(o.scheduledDate) + " · " + escapeHtml(o.scheduledTime) : "Sin fecha preferida"}</p><p>${escapeHtml(o.address || "")}</p><p class="small-label">Registro en este dispositivo. La coordinación externa no está conectada.</p>`,
+                );
+              break;
+            case "acceptLabOrder":
+              if (o && o.status === "Solicitud guardada") {
+                o.status = "Aceptada por laboratorio";
+                saveState(`Aceptación local ${o.id}`);
+                render();
+              }
+              break;
+            case "markSample":
+              if (o && o.status === "Aceptada por laboratorio") {
+                o.status = "Muestra tomada";
+                saveState(`Registro local de toma ${o.id}`);
+                render();
+              }
+              break;
+            case "doctorOpenConsult":
+              if (a && !["Cancelada", "Completada"].includes(a.status)) {
+                selectedAppointment = id;
+                setView("consultation");
+              }
+              break;
+            case "reviewResult": {
+              const r = state.labResults.find((r) => r.id === id);
+              if (r)
+                openModal(
+                  "Revisión de resultado",
+                  `<h3>${escapeHtml(r.testName)}</h3><form id="reviewForm" class="form-grid"><input type="hidden" name="id" value="${r.id}"><div class="form-group full"><label for="reviewText">Observación profesional</label><textarea id="reviewText" name="review" required></textarea></div><button class="btn btn-primary">Guardar revisión</button></form>`,
+                );
+              break;
+            }
+            case "downloadFakeResult":
+              downloadResultFile(id);
+              break;
+            case "joinCall":
+              openModal(
+                "Preparar consulta virtual",
+                `<div class="video-placeholder"><span class="service-symbol">${icon("video")}</span><h2>Sala de espera</h2><p>La conexión con un profesional aún no está habilitada.</p></div><video id="cameraPreview" class="camera-preview" autoplay muted playsinline hidden></video><p id="cameraStatus" class="small-label">Puedes comprobar tu cámara. No se transmitirá ni grabará imagen.</p><button class="btn btn-secondary" data-action="camera">Probar cámara</button>`,
+              );
+              break;
+            case "camera":
+              testCamera();
+              break;
+            case "revokeCaregiver":
+              state.patient.caregiver.permissions = {
+                appointments: false,
+                results: false,
+                prescriptions: false,
+              };
+              saveState("Preferencias familiares revocadas");
+              render();
+              toast("Preferencias revocadas.");
+              break;
+            case "cancelPharmacy": {
+              const p = state.pharmacyOrders.find((p) => p.id === id);
+              if (p) {
+                openModal(
+                  "Cancelar solicitud de farmacia",
+                  `<p>¿Deseas cancelar ${escapeHtml(p.id)}?</p><button class="btn btn-primary" data-action="confirmPharmacyCancel" data-id="${p.id}">Sí, cancelar</button>`,
+                );
+              }
+              break;
+            }
+            case "confirmPharmacyCancel": {
+              const p = state.pharmacyOrders.find((p) => p.id === id);
+              if (p) {
+                p.status = "Cancelada";
+                saveState();
+                closeModal();
+                render();
+              }
+              break;
+            }
+            case "attachment": {
+              const p = state.pharmacyOrders.find((p) => p.id === id);
+              if (
+                p?.attachment &&
+                /^data:(application\/pdf|image\/(png|jpeg));base64,/.test(
+                  p.attachment.data,
+                )
+              ) {
+                const a = document.createElement("a");
+                a.href = p.attachment.data;
+                a.download = p.attachment.name;
+                a.click();
+              }
+              break;
+            }
+            case "toggleDoctor": {
+              const d = state.doctors.find((d) => d.id === id);
+              if (d) {
+                d.available = !d.available;
+                saveState("Disponibilidad del perfil actualizada");
+                render();
+              }
+              break;
+            }
+            case "openPatientRecord":
+              openModal(
+                "Datos del paciente",
+                `<h3>${escapeHtml(state.patient.name || "Sin nombre")}</h3><p>Alergias: ${escapeHtml(state.patient.allergies || "Sin registrar")}</p><p>Antecedentes: ${escapeHtml(state.patient.conditions || "Sin registrar")}</p>`,
+              );
+              break;
+            case "exportData":
+              download(
+                "SaludCerca-respaldo.json",
+                JSON.stringify(state, null, 2),
+                "application/json",
+              );
+              break;
+            case "reset":
+              openModal(
+                "Restablecer datos",
+                `<p>Se eliminarán las solicitudes, adjuntos y preferencias guardadas en esta edición. Puedes exportar un respaldo antes de continuar.</p><div class="actions"><button class="btn btn-secondary" data-action="exportData">Exportar</button><button class="btn btn-primary" data-action="confirmReset">Eliminar y restablecer</button></div>`,
+              );
+              break;
+            case "confirmReset":
+              try {
+                localStorage.removeItem(STORAGE_KEY);
+              } catch {}
+              state = structuredClone(defaultState);
+              currentRole = "patient";
+              currentView = "dashboard";
+              closeModal();
+              applyAccessibility();
+              render();
+              toast("Datos restablecidos.");
+              break;
+          }
+        }
+
+        function downloadResultFile(id) {
+          const r = state.labResults.find((r) => r.id === id);
+          if (!r) return;
+          download(
+            `${r.id}.txt`,
+            [
+              `${state.settings.appName} · Registro local`,
+              r.id,
+              r.testName,
+              formatDate(r.date),
+              ...r.values.map((v) => `${v.name}: ${v.value} (${v.range})`),
+              `Laboratorio: ${r.labComment || ""}`,
+              `Revisión: ${r.review || "Pendiente"}`,
+              "Registro local sin validación ni firma clínica.",
+            ].join("\n"),
+            "text/plain",
+          );
+        }
+
+        function initGlobalEvents() {
+          document.addEventListener("click", (e) => {
+            const el = e.target.closest("[data-view],[data-action]");
+            if (!el) return;
+            if (el.dataset.view) setView(el.dataset.view);
+            else handleAction(el.dataset.action, el.dataset.id);
+          });
+          $("#menuBtn").addEventListener("click", () =>
+            $("#sidebar").classList.toggle("open"),
+          );
+          $("#closeModalBtn").addEventListener("click", closeModal);
+          $("#modalBackdrop").addEventListener("click", closeModal);
+          $("#fontBtn").addEventListener("click", () => {
+            state.accessibility.largeText = !state.accessibility.largeText;
+            applyAccessibility();
+            saveState();
+          });
+          $("#contrastBtn").addEventListener("click", () => {
+            state.accessibility.highContrast =
+              !state.accessibility.highContrast;
+            applyAccessibility();
+            saveState();
+          });
+          document.addEventListener("change", (e) => {
+            if (e.target.id === "bookMode") {
+              $("#addressGroup").hidden = e.target.value === "Videollamada";
+              $("#bookAddress").required = e.target.value !== "Videollamada";
+            }
+          });
+          document.addEventListener("submit", (e) => {
+            const id = e.target.id;
+            const f = Object.fromEntries(new FormData(e.target));
+            if (id === "coordinationForm") {
+              submitCoordination(e);
+              return;
+            }
+            if (id === "bookingForm") {
+              e.preventDefault();
+              booking = { ...booking, ...f };
+              if (validAppointment(booking)) bookingStep(2);
+            }
+            if (id === "confirmBooking") {
+              e.preventDefault();
+              commitBooking();
+            }
+            if (id === "zoneForm") {
+              e.preventDefault();
+              state.zone = f.zone;
+              saveState();
+              closeModal();
+              render();
+            }
+            if (id === "reviewForm") {
+              e.preventDefault();
+              const r = state.labResults.find((r) => r.id === f.id);
+              if (r) {
+                r.review = f.review;
+                r.status = "Revisado por médico";
+                notify("Se guardó una revisión de resultado.");
+                saveState("Revisión local de resultado");
+                closeModal();
+                render();
+              }
+            }
+            if (id === "labBooking") {
+              e.preventDefault();
+              const o = state.labOrders.find((o) => o.id === f.orderId);
+              if (!o) return;
+              if (f.date <= localDate())
+                return toast("Elige una fecha a partir de mañana.");
+              Object.assign(o, {
+                scheduledDate: f.date,
+                scheduledTime: f.time,
+                address: f.address,
+                zone: f.zone,
+                status: "Solicitud guardada",
+                laboratory: "Por asignar",
+              });
+              notify("Solicitud de laboratorio guardada. Pendiente de envío.");
+              saveState("Solicitud domiciliaria guardada");
+              closeModal();
+              render();
+            }
+          });
+          document.addEventListener("keydown", (e) => {
+            if ($("#modal").classList.contains("hidden")) return;
+            if (e.key === "Escape") closeModal();
+            if (e.key === "Tab") {
+              const focus = [
+                ...$("#modal").querySelectorAll(
+                  "button,input,select,textarea,a[href]",
+                ),
+              ].filter((x) => !x.disabled && x.getClientRects().length);
+              const first = focus[0],
+                last = focus.at(-1);
+              if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last?.focus();
+              } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first?.focus();
+              }
+            }
+          });
+          window.addEventListener("storage", (e) => {
+            if (e.key === STORAGE_KEY && e.newValue) {
+              state = loadState();
+              if ($("#modal").classList.contains("hidden")) render();
+              else
+                toast(
+                  "Hay cambios en otra pestaña. Revisa tu solicitud antes de guardar.",
+                );
+            }
+          });
+          window.addEventListener("pagehide", () =>
+            cameraStream?.getTracks().forEach((t) => t.stop()),
+          );
+        }
+
+        Object.assign(views.patient, {
+          homeCare, pharmacy, notifications, network, careJourney, myServices,
+          clinic:()=>serviceLanding('clinic'),
+          hospital:()=>serviceLanding('hospital'),
+          physiotherapy:()=>serviceLanding('physiotherapy'),
+          rehabilitation:()=>serviceLanding('rehabilitation'),
+          nursing:()=>serviceLanding('nursing'),
+          transport:()=>serviceLanding('transport'),
+          prevention:()=>serviceLanding('prevention'),
+          ambulanceScheduled:()=>serviceLanding('ambulanceScheduled')
+        });
+        Object.assign(views.admin,{requestsAdmin});
+        Object.assign(views.doctor, { results: patientResults, notifications });
+        Object.assign(views.lab, { notifications });
+        Object.assign(views.admin, { notifications });
+        applyAccessibility();
+        initGlobalEvents();
+        render();
+      })();
+    </script>
+  </body>
+</html>
